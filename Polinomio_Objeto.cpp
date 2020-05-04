@@ -20,12 +20,14 @@ class Polinomio {
 		float *coef;		// Vector con los coeficientes
 		int grado;			// Grado del polinomio
 		int max_grado;	   	// Maximo grado permitido en este polinomio
+		void resize(int i);		//Funcion privada para redimensionar el tamaño del vector de coeficientes de un objeto polinomio
 
 	public:
 		Polinomio();			 //Constructor por defecto
 		Polinomio(int maxGrado); //Otro constructor
 		void setCoeficienteV1(int i, float c);
 		void setCoeficienteV2(int i, float c);
+		void setCoeficienteV3 (int i, float c);
 		float getCoeficiente(int i) const;
 		int getGrado() const;
 		int getMaxGrado () const;
@@ -96,6 +98,52 @@ void Polinomio::setCoeficienteV2 (int i, float c) {
 		else if(c == 0.0 && i == grado){//
 			while(coef[grado] == 0.0 && grado > 0){//Aqui cambio el grado por el primer coeficiente que encuentre distinto de 0
 				grado = grado - 1;//Aqui he tenido problemas al poner el -- y no se porque me da fallo, al ponerlo asi si funciona
+			}
+		}
+	}
+	else{
+		cout << RED << "No se puede introducir un monomio de grado negativo " << RESTORE << endl;
+	}
+}
+void Polinomio::resize(int i){
+		float *	v_aux = new float[i + 1];
+			if (v_aux == 0){
+        		cerr << "No hay espacio suficiente. Se terminará la ejecución del programa." << endl;
+        		exit(-1);//Salida forzada del programa para terminar el proceso.
+    		}
+			//Copiamos los coeficientes en el auxiliar
+			for(int j = 0; j <= grado; j++){
+				v_aux[j] = coef[j];
+			}		
+			cout << GREEN << "DEBUG : Modificando espacio... " << RESTORE << endl;
+			cout << RED << "DEBUG : Liberando memoria antigua... " << RESTORE << endl;
+			delete [] coef; //Aqui libero la memoria 
+			coef = v_aux; //Cambio los punteros de coeficientes	
+			cout << GREEN << "DEBUG : Memoria antigua liberada correctamente... " << RESTORE << endl;
+			//Pongo a 0.0 los nuevos coeficientes
+			for(int k = grado + 1; k <= i; k++){
+				coef[k] = 0.0; 
+			}
+			max_grado = i; //Cambio el nuevo grado maximo del polinomio
+}
+void Polinomio::setCoeficienteV3 (int i, float c) {
+	if (i >= 0){ 
+		if (i > max_grado){ //Si el indice del coeficiente es mayor que el maximo grado permitido en nuestro polinomio, necesitamos mas espacio
+			cout << RED << "DEBUG : Ampliando espacio... " << RESTORE << endl;
+			resize(i);
+		}
+		coef[i] = c; //Aqui asigno el nuevo coeficiente
+		//Aqui cambio el grado actual del polinomio
+		if(c != 0.0 && i > grado){
+			grado = i;
+		}
+		else if(c == 0.0 && i == grado){//
+			while(coef[grado] == 0.0 && grado > 0){//Aqui cambio el grado por el primer coeficiente que encuentre distinto de 0
+				grado = grado - 1;//Aqui he tenido problemas al poner el -- y no se porque me da fallo, al ponerlo asi si funciona
+			}
+			if (grado < max_grado){
+				cout << RED << "DEBUG : Disminuyendo espacio... " << RESTORE << endl;
+				resize(grado);
 			}
 		}
 	}
@@ -187,11 +235,11 @@ void Test_caso1(Polinomio *p){
 
 	cout << endl << CYAN << "***** Ejecutando el caso de testing 1 ***** " << RESTORE << endl;
 	
-	p->setCoeficienteV2(3,5.5);
+	p->setCoeficienteV3(3,5.5);
 	cout << GREEN << "Introducido el valor por defecto" << endl;
 	p->print();
 	cout << RED << "DEBUG : Introduciendo un valor menor al grado actual " << RESTORE << endl;
-	p->setCoeficienteV2(2,3.3);
+	p->setCoeficienteV3(2,3.3);
 	cout << GREEN << "DEBUG : Introducido el valor correctamente, imprimiendo nuevo polinomio... " << RESTORE << endl;
 	p->print();
 }
@@ -206,7 +254,7 @@ void Test_caso2(Polinomio *p){
 	cout << endl << CYAN << "***** Ejecutando el caso de testing 2 ***** " << RESTORE << endl;
 	
 	cout << RED << "DEBUG : Introduciendo un monomio de grado negativo " << RESTORE << endl;
-	p->setCoeficienteV2(-2,1.3);
+	p->setCoeficienteV3(-2,1.3);
 	cout << GREEN << "DEBUG : Previamente a esta sentencia debe de haber salido un mensaje de error... " << RESTORE << endl;
 	p->print();
 }
@@ -220,7 +268,7 @@ void Test_caso3(Polinomio *p){
 	
 	cout << RED << "DEBUG : Introduciendo un monomio de grado mayor que el actual pero menor que el maximo" << RESTORE << endl;
 	cout << RED << "DEBUG : Grado actual --> " <<  p->getGrado() << RESTORE << endl;
-	p->setCoeficienteV2(4,6.7);
+	p->setCoeficienteV3(4,6.7);
 	cout << GREEN << "DEBUG : Grado actual --> " <<  p->getGrado() << RESTORE << endl;
 	p->print();
 }
@@ -235,7 +283,7 @@ void Test_caso4(Polinomio *p){
 	cout << RED << "DEBUG : Introduciendo un monomio de grado mayor que el actual pero menor que el maximo" << RESTORE << endl;
 	cout << RED << "DEBUG : Grado actual --> " <<  p->getGrado() << RESTORE << endl;
 	cout << RED << "DEBUG : Grado máximo base --> " <<  p->getMaxGrado() << RESTORE << endl;
-	p->setCoeficienteV2(7,8.7);
+	p->setCoeficienteV3(7,8.7);
 	cout << GREEN << "DEBUG : Grado actual --> " <<  p->getGrado() << RESTORE << endl;
 	cout << RED << "DEBUG : Grado máximo ahora --> " <<  p->getMaxGrado() << RESTORE << endl;
 	p->print();
@@ -248,10 +296,10 @@ void Test_caso5(Polinomio *p){
 */	
 	cout << endl << CYAN << "***** Ejecutando el caso de testing 5 ***** " << RESTORE << endl;
 	
-	cout << RED << "DEBUG : Introduciendo un monomio de grado mayor que el actual pero menor que el maximo" << RESTORE << endl;
+	cout << RED << "DEBUG : Introduciendo un monomio de grado igual al grado actual y cuyo coeficiente es 0" << RESTORE << endl;
 	cout << RED << "DEBUG : Grado actual --> " <<  p->getGrado() << RESTORE << endl;
 	cout << RED << "DEBUG : Grado máximo base --> " <<  p->getMaxGrado() << RESTORE << endl;
-	p->setCoeficienteV2(7,0.0);
+	p->setCoeficienteV3(7,0.0);
 	cout << GREEN << "DEBUG : Grado actual --> " <<  p->getGrado() << RESTORE << endl;
 	cout << RED << "DEBUG : Grado máximo ahora --> " <<  p->getMaxGrado() << RESTORE << endl;
 	p->print();
