@@ -25,6 +25,7 @@ class Polinomio {
 	public:
 		Polinomio();			 //Constructor por defecto
 		Polinomio(int maxGrado); //Otro constructor
+		Polinomio(const Polinomio &p);
 		void setCoeficienteV1(int i, float c);
 		void setCoeficienteV2(int i, float c);
 		void setCoeficienteV3 (int i, float c);
@@ -312,6 +313,19 @@ void ModuloTesting(Polinomio *p){
 	Test_caso4(p);
 	Test_caso5(p);
 }
+Polinomio::Polinomio(const Polinomio &p){
+	cout << RED << "Iniciando el constructor por copia " << RESTORE << endl;
+	max_grado = p.max_grado;
+	grado = p.grado;
+	coef = new float[max_grado + 1];
+	if (coef == 0){
+        		cerr << "No hay espacio suficiente. Se terminará la ejecución del programa." << endl;
+        		exit(-1);//Salida forzada del programa para terminar el proceso.
+    }
+	for(int i = 0; i <= max_grado; i++){
+		coef[i] = p.coef[i];
+	}
+}
 int main (){
 
 	Polinomio *Polinom = new Polinomio();
@@ -325,12 +339,44 @@ int main (){
 	Polinom.setCoeficienteV2(9,3);
 	Polinom.print();
 	cout << GREEN << "DEBUG: Segunda parte (setCoeficienteV2) lista... " << RESTORE << endl;*/
-	cout << GREEN << "DEBUG : Empezando el testing a poli_est(version estática)" << RESTORE << endl;
+
+	// ********************* Parte del testing ************************
+	/*cout << GREEN << "DEBUG : Empezando el testing a poli_est(version estática)" << RESTORE << endl;
 	ModuloTesting(&poli_est);
 	cout << PURPLE << "DEBUG : Acabado el testing a poli_est(version estática)" << RESTORE << endl;
 	cout << GREEN << "DEBUG : Empezando el testing a *Polinom(version dinámica)" << RESTORE << endl;
 	ModuloTesting(Polinom);
 	cout << RED << "DEBUG : Liberando memoria dinamica..." << RESTORE << endl;
 	delete Polinom;
-	cout << GREEN << "DEBUG : Memoria dinámica borrada correctamente" << RESTORE << endl;
+	cout << GREEN << "DEBUG : Memoria dinámica borrada correctamente" << RESTORE << endl;*/
+
+	// ********************* Parte del constructor por copia ************************
+		//Parte dinamica
+	Polinom->setCoeficienteV3(2,5.5);
+	Polinom->setCoeficienteV3(4,1.1);
+	cout << GREEN << "DEBUG : Grado actual --> " <<  Polinom->getGrado() << RESTORE << endl;
+	cout << RED << "DEBUG : Grado máximo ahora --> " <<  Polinom->getMaxGrado() << RESTORE << endl;
+	cout << RED << "A continuacion vamos a crear una copia del polinomio mostrado..." << RESTORE << endl;
+	Polinom->print();
+	Polinomio *Copia_pol = new Polinomio(*Polinom);
+	cout << GREEN << "DEBUG : Grado actual --> " <<  Copia_pol->getGrado() << RESTORE << endl;
+	cout << RED << "DEBUG : Grado máximo ahora --> " <<  Copia_pol->getMaxGrado() << RESTORE << endl;
+	Copia_pol->print();
+	cout << endl;
+	cout << BLUE << "CAMBIANDO A LA PARTE ESTATICA DEL TESTING " << RESTORE << endl;
+	cout << endl;
+		//Parte estatica
+	poli_est.setCoeficienteV3(2,5.5);
+	poli_est.setCoeficienteV3(4,1.1);
+	cout << GREEN << "DEBUG : Grado actual --> " <<  poli_est.getGrado() << RESTORE << endl;
+	cout << RED << "DEBUG : Grado máximo ahora --> " <<  poli_est.getMaxGrado() << RESTORE << endl;
+	cout << RED << "A continuacion vamos a crear una copia del polinomio mostrado..." << RESTORE << endl;
+	poli_est.print();
+	Polinomio Copia_est = Polinomio(poli_est);
+	cout << GREEN << "DEBUG : Grado actual --> " <<  Copia_est.getGrado() << RESTORE << endl;
+	cout << RED << "DEBUG : Grado máximo ahora --> " <<  Copia_est.getMaxGrado() << RESTORE << endl;
+	Copia_est.print();
+
+
+
 }
