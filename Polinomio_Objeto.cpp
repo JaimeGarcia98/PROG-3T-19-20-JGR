@@ -20,30 +20,116 @@ class Polinomio {
 		float *coef;		// Vector con los coeficientes
 		int grado;			// Grado del polinomio
 		int max_grado;	   	// Maximo grado permitido en este polinomio
+		/**
+		 * @brief Módulo que introduce un grado al miembro grado del OBJETO Polinomio
+		 * @pre El valor que se le va a introducir a este miembro debe de ser mayor o igual que 0
+		 * @param (int) g, variable de tipo entero, la cual usaremos para introducir el grado en el OBJETO Polinomio
+		 * @post El valor del miembro grado del OBJETO Polinomio, será modificado.
+		 */
+		void setGrado(int g);
+		/**
+		* @brief Modulo de redimension para el vector de coeficientes del OBJETO Polinomio, este modulo crea un vector de coeficientes de dimension [i + 1], posteriormente se copia el 			contenido del antiguo vector en este nuevo y por ultimo se libera la memoria antigua, se sustituye la posicion de memoria a la cual apunta el puntero de coef del OBJETO 				Polinomio y se ponen a 0 los nuevos espacios generados en el vector de coeficientes
+		* @pre El parametro i que se pasa a este modulo para ajustar la dimension, debe de ser mayor o igual a 0, no se debe de introducir un numero negativo
+		* @return No devuelve nada, es un procedimiento
+		* @post El vector de coeficientes del OBJETO Polinomio debe de haber cambiado por el nuevo vector generado, que será un vector cuya dimension es exacta para el momento en el cual 				se invoca 
+		*/
 		void resize(int i);		//Funcion privada para redimensionar el tamaño del vector de coeficientes de un objeto polinomio
 
 	public:
+		/**
+		* @brief Constructor por defecto del OBJETO Polinomio, se invoca solo.
+		* @post Tras haberse ejecutado este modulo, se debe de haber creado un OBJETO Polinomio
+		*/
 		Polinomio();			 //Constructor por defecto
+		/**
+		* @brief Constructor del OBJETO Polinomio, este constructor pide un numero entero para generar la dimension del vector de coeficientes
+		* @pre El numero introducido debe de ser mayor o igual a 0, es decir, no se puede introducir un numero negativo
+		* @post Tras haberse ejecutado este modulo, se debe de haber creado un OBJETO Polinomio cuyo vector de coeficientes debe de tener una dimension igual al numero introducido en 				maxGrado y este miembro del OBJETO tambien debe de quedar actualizado
+		*/
 		Polinomio(int maxGrado); //Otro constructor
+		/**
+		* @brief Constructor por copia del OBJETO Polinomio, este constructor crea una copia exacta del Polinomio P que se le pasa como parametro a este modulo.
+		* @pre El polinomio que se pasa por referencia para copiar debe de estar previamente filtrado para que este correctamente generado
+		* @post Tras haberse ejecutado este modulo, se debe de haber creado un OBJETO Polinomio exactamente igual al OBJETO Polinomio que se le ha pasado como parametro.
+		*/
 		Polinomio(const Polinomio &p);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
 		void setCoeficienteV1(int i, float c);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
 		void setCoeficienteV2(int i, float c);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
 		void setCoeficienteV3 (int i, float c);
+		/**
+ 		* @brief Modulo que devuelve el valor de la posicion 'i' del vector de coeficientes del OBJETO Polinomio
+ 		* @return Devuelve el valor de la posicion 'i' del vector de coeficientes que es un valor de tipo float
+		*/
 		float getCoeficiente(int i) const;
+		/**
+ 		* @brief Modulo que devuelve el valor del miembro grado del OBJETO Polinomio
+ 		* @return Devuelve el valor de la variable grado que es un valor de tipo int
+		*/
 		int getGrado() const;
+		/**
+ 		* @brief Modulo que devuelve el valor del miembro maxGrado del OBJETO Polinomio
+ 		* @return Devuelve el valor de la variable maxGrado que es un valor de tipo int
+		*/
 		int getMaxGrado () const;
+		/**
+		* @brief Modulo que imprime por pantalla un polinomio(EJ: 2X^3 + 0.5X^1...)
+		* @pre El polinomio debe de tener algun coeficiente relleno para ser mostrado por pantalla.
+		* @return No devuelve nada, es un procedimiento.
+		* @post El OBJETO Polinomio debe de quedar impreso por pantalla de manera correcta, tal y como se ve en el ejemplo
+		*/
 		void print() const;
+		/**
+		* @brief Destructor del OBJETO Polinomio, se invoca solo al finalizar la ejecuccion del programa.
+		* @post Tras ejecutarse este modulo, el OBJETO Polinomio debe de haberse borrado correctamente.
+		*/
 		~Polinomio();    //Destructor
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		void SumaV1(const Polinomio &p);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		void SumaV2(const Polinomio &p1, const Polinomio &p2);
 };
 Polinomio::Polinomio (){
-	int dim_nueva = 5;
+	int dim_nueva = 0;
 	
 	coef = new float [dim_nueva];
 	for (int i = 0; i < dim_nueva; i++){
 		coef[i] = 0.0;
 	}
 	grado = 0;
-	max_grado = 5;
+	max_grado = 0;
 
 }
 Polinomio::Polinomio (int maxGrado){
@@ -59,17 +145,25 @@ Polinomio::Polinomio (int maxGrado){
 	grado = 0;
 	max_grado = maxGrado;
 }
+void Polinomio::setGrado (int g){
+	if (g < 0){
+		cout << RED << "DEBUG: No se puede introducir un numero negativo..." << RESTORE << endl;
+	}
+	else{
+		grado = g;
+	}
+}
 void Polinomio::setCoeficienteV1 (int i, float c) {
 	if (i >= 0){
 		coef[i] = c;
 		if(c != 0.0 && i > grado){
-			grado = i;
+			setGrado(i);
 		}
 	}
 }
 void Polinomio::setCoeficienteV2 (int i, float c) {
 	if (i >= 0){ 
-		if (i > max_grado){ //Si el indice del coeficiente es mayor que el maximo grado permitido en nuestro polinomio, necesitamos mas espacio
+		if (i > getMaxGrado()){ //Si el indice del coeficiente es mayor que el maximo grado permitido en nuestro polinomio, necesitamos mas espacio
 			cout << RED << "DEBUG : Ampliando espacio... " << RESTORE << endl;
 			float *	v_aux = new float[i + 1];
 			if (v_aux == 0){
@@ -86,7 +180,7 @@ void Polinomio::setCoeficienteV2 (int i, float c) {
 			coef = v_aux; //Cambio los punteros de coeficientes	
 			cout << GREEN << "DEBUG : Memoria antigua liberada correctamente... " << RESTORE << endl;
 			//Pongo a 0.0 los nuevos coeficientes
-			for(int k = grado + 1; k <= i; k++){
+			for(int k = getGrado() + 1; k <= i; k++){
 				coef[k] = 0.0; 
 			}
 			max_grado = i; //Cambio el nuevo grado maximo del polinomio
@@ -94,11 +188,11 @@ void Polinomio::setCoeficienteV2 (int i, float c) {
 		coef[i] = c; //Aqui asigno el nuevo coeficiente
 		//Aqui cambio el grado actual del polinomio
 		if(c != 0.0 && i > grado){
-			grado = i;
+			setGrado(i);
 		}
-		else if(c == 0.0 && i == grado){//
-			while(coef[grado] == 0.0 && grado > 0){//Aqui cambio el grado por el primer coeficiente que encuentre distinto de 0
-				grado = grado - 1;//Aqui he tenido problemas al poner el -- y no se porque me da fallo, al ponerlo asi si funciona
+		else if(c == 0.0 && i == getGrado()){//
+			while(coef[getGrado()] == 0.0 && getGrado() > 0){//Aqui cambio el grado por el primer coeficiente que encuentre distinto de 0
+				setGrado(getGrado() - 1);//Aqui he tenido problemas al poner el -- y no se porque me da fallo, al ponerlo asi si funciona
 			}
 		}
 	}
@@ -113,7 +207,7 @@ void Polinomio::resize(int i){
         		exit(-1);//Salida forzada del programa para terminar el proceso.
     		}
 			//Copiamos los coeficientes en el auxiliar
-			for(int j = 0; j <= grado; j++){
+			for(int j = 0; j <= getGrado(); j++){
 				v_aux[j] = coef[j];
 			}		
 			cout << GREEN << "DEBUG : Modificando espacio... " << RESTORE << endl;
@@ -122,7 +216,7 @@ void Polinomio::resize(int i){
 			coef = v_aux; //Cambio los punteros de coeficientes	
 			cout << GREEN << "DEBUG : Memoria antigua liberada correctamente... " << RESTORE << endl;
 			//Pongo a 0.0 los nuevos coeficientes
-			for(int k = grado + 1; k <= i; k++){
+			for(int k = getGrado() + 1; k <= i; k++){
 				coef[k] = 0.0; 
 			}
 			max_grado = i; //Cambio el nuevo grado maximo del polinomio
@@ -135,16 +229,16 @@ void Polinomio::setCoeficienteV3 (int i, float c) {
 		}
 		coef[i] = c; //Aqui asigno el nuevo coeficiente
 		//Aqui cambio el grado actual del polinomio
-		if(c != 0.0 && i > grado){
-			grado = i;
+		if(c != 0.0 && i > getGrado()){
+			setGrado(i);
 		}
 		else if(c == 0.0 && i == grado){//
-			while(coef[grado] == 0.0 && grado > 0){//Aqui cambio el grado por el primer coeficiente que encuentre distinto de 0
-				grado = grado - 1;//Aqui he tenido problemas al poner el -- y no se porque me da fallo, al ponerlo asi si funciona
+			while(coef[getGrado()] == 0.0 && getGrado() > 0){//Aqui cambio el grado por el primer coeficiente que encuentre distinto de 0
+				setGrado(getGrado() - 1);//Aqui he tenido problemas al poner el -- y no se porque me da fallo, al ponerlo asi si funciona
 			}
-			if (grado < max_grado){
+			if (getGrado() < max_grado){
 				cout << RED << "DEBUG : Disminuyendo espacio... " << RESTORE << endl;
-				resize(grado);
+				resize(getGrado());
 			}
 		}
 	}
@@ -326,6 +420,43 @@ Polinomio::Polinomio(const Polinomio &p){
 		coef[i] = p.coef[i];
 	}
 }
+void Polinomio::SumaV1(const Polinomio &p){
+	cout << RED << "DEBUG: Entrando en el modulo de sumaV1... " << RESTORE << endl;
+	if (p.getMaxGrado() <= getMaxGrado()){
+		for(int i = 0; i <= getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			setCoeficienteV3(i,(coef[i] + p.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}
+	}
+	else{
+		resize(p.getMaxGrado());
+		for(int i = 0; i <= getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			setCoeficienteV3(i,(coef[i] + p.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}	
+	 }
+}
+void Polinomio::SumaV2(const Polinomio &p1, const Polinomio &p2){
+	cout << RED << "DEBUG: Entrando en el modulo de sumaV2... " << RESTORE << endl;
+	if (p1.getMaxGrado() <= p2.getMaxGrado()){
+		resize(p2.getMaxGrado());
+		for(int i = 0; i <= p2.getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			setCoeficienteV3(i,(p1.coef[i] + p2.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}
+	}
+	else{
+		resize(p1.getMaxGrado());
+		for(int i = 0; i <= p1.getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			setCoeficienteV3(i,(p1.coef[i] + p2.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}	
+	 }
+}
 int main (){
 
 	Polinomio *Polinom = new Polinomio();
@@ -340,7 +471,9 @@ int main (){
 	Polinom.print();
 	cout << GREEN << "DEBUG: Segunda parte (setCoeficienteV2) lista... " << RESTORE << endl;*/
 
+
 	// ********************* Parte del testing ************************
+
 	/*cout << GREEN << "DEBUG : Empezando el testing a poli_est(version estática)" << RESTORE << endl;
 	ModuloTesting(&poli_est);
 	cout << PURPLE << "DEBUG : Acabado el testing a poli_est(version estática)" << RESTORE << endl;
@@ -350,9 +483,11 @@ int main (){
 	delete Polinom;
 	cout << GREEN << "DEBUG : Memoria dinámica borrada correctamente" << RESTORE << endl;*/
 
+
 	// ********************* Parte del constructor por copia ************************
+
 		//Parte dinamica
-	Polinom->setCoeficienteV3(2,5.5);
+	/*Polinom->setCoeficienteV3(2,5.5);
 	Polinom->setCoeficienteV3(4,1.1);
 	cout << GREEN << "DEBUG : Grado actual --> " <<  Polinom->getGrado() << RESTORE << endl;
 	cout << RED << "DEBUG : Grado máximo ahora --> " <<  Polinom->getMaxGrado() << RESTORE << endl;
@@ -375,8 +510,42 @@ int main (){
 	Polinomio Copia_est = Polinomio(poli_est);
 	cout << GREEN << "DEBUG : Grado actual --> " <<  Copia_est.getGrado() << RESTORE << endl;
 	cout << RED << "DEBUG : Grado máximo ahora --> " <<  Copia_est.getMaxGrado() << RESTORE << endl;
-	Copia_est.print();
+	Copia_est.print();*/
 
+	/*Polinom->setGrado(9);//Tras ponerlo en privado no debe de dejar que esta sentencia se ejecute
+	Polinom->setCoeficienteV3(1,1.1);
+	Polinom->print();*/
 
+	// ********************* Parte del modulo de suma de polinomios ************************
+		
+		//Version 1.0 del metodo de suma de polinomios.(Se almacena el resultado de la suma en el polinomio que llama al metodo)
+	/*Polinomio p;
+	
+	Polinom->setCoeficienteV3(2,5.5);
+	Polinom->setCoeficienteV3(3,4);
+	p.setCoeficienteV3(2,1);
+	p.setCoeficienteV3(1,7);
+	p.print();
+	cout << p.getMaxGrado() << endl;
+	cout << Polinom->getMaxGrado() << endl;
+	Polinom->print();
+	Polinom->SumaV1(p);
+	cout << p.getMaxGrado() << endl;
+	cout << Polinom->getMaxGrado() << endl;
+	Polinom->print();*/
 
+		//Version 2.0 del metodo de suma de polinomios.(Se almacena el resultado de la suma de dos polinomios externos en el OBJETO Polinomio que llama al metodo)
+	Polinomio p1;
+	Polinomio p2;
+		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA
+	p1.setCoeficienteV3(1,1);
+	p1.setCoeficienteV3(3,7);
+	p1.print();
+		//RELLENAR EL POLINOMIO P2 Y LO MUESTRO POR PANTALLA
+	p2.setCoeficienteV3(2,3);
+	p2.setCoeficienteV3(4,5);
+	p2.print();
+		//LLAMO AL METODO DE SUMA DE POLINOMIO V2
+	Polinom->SumaV2(p1, p2);
+	Polinom->print();
 }
