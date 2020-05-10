@@ -11,3 +11,5 @@ Realizados los testings del setCoeficienteV2, faltan aclarar las Precondiciones 
 setCoeficienteV3 realizado, utilizando la funcion privada resize, esta testado con los testings automaticos y funciona correctamente
 
 Constructor por copia realizado(testado estatica y dinamicamente), pensando en los casos de la funcion sumar 2 o mas polinomios
+
+Construccion de los metodos de suma v1 y v2, mas codigo del setgrado modificado, falta implementar el modo debug y el suma v3
