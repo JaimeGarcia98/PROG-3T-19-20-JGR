@@ -13,3 +13,5 @@ setCoeficienteV3 realizado, utilizando la funcion privada resize, esta testado c
 Constructor por copia realizado(testado estatica y dinamicamente), pensando en los casos de la funcion sumar 2 o mas polinomios
 
 Construccion de los metodos de suma v1 y v2, mas codigo del setgrado modificado, falta implementar el modo debug y el suma v3
+
+Construccion del metodo sumaV3, codigo modificado pero falta por implementar el modo debug y los punteros this.
