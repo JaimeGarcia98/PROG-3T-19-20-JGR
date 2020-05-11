@@ -120,6 +120,14 @@ class Polinomio {
 		* @post 
 		*/
 		void SumaV2(const Polinomio &p1, const Polinomio &p2);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		Polinomio SumaV3(const Polinomio &p3);
 };
 Polinomio::Polinomio (){
 	int dim_nueva = 0;
@@ -409,15 +417,15 @@ void ModuloTesting(Polinomio *p){
 }
 Polinomio::Polinomio(const Polinomio &p){
 	cout << RED << "Iniciando el constructor por copia " << RESTORE << endl;
-	max_grado = p.max_grado;
-	grado = p.grado;
-	coef = new float[max_grado + 1];
+	this->max_grado = p.max_grado;
+	this->grado = p.grado;
+	this->coef = new float[max_grado + 1];
 	if (coef == 0){
         		cerr << "No hay espacio suficiente. Se terminará la ejecución del programa." << endl;
         		exit(-1);//Salida forzada del programa para terminar el proceso.
     }
 	for(int i = 0; i <= max_grado; i++){
-		coef[i] = p.coef[i];
+		this->coef[i] = p.coef[i];
 	}
 }
 void Polinomio::SumaV1(const Polinomio &p){
@@ -425,7 +433,7 @@ void Polinomio::SumaV1(const Polinomio &p){
 	if (p.getMaxGrado() <= getMaxGrado()){
 		for(int i = 0; i <= getMaxGrado(); i++){
 			//cout << BLUE << coef[i] << RESTORE << endl;
-			setCoeficienteV3(i,(coef[i] + p.coef[i]));
+			setCoeficienteV3(i,(getCoeficiente(i) + p.getCoeficiente(i)));
 			//cout << PURPLE << coef[i] << RESTORE << endl;
 		}
 	}
@@ -433,7 +441,7 @@ void Polinomio::SumaV1(const Polinomio &p){
 		resize(p.getMaxGrado());
 		for(int i = 0; i <= getMaxGrado(); i++){
 			//cout << BLUE << coef[i] << RESTORE << endl;
-			setCoeficienteV3(i,(coef[i] + p.coef[i]));
+			setCoeficienteV3(i,(getCoeficiente(i) + p.getCoeficiente(i)));
 			//cout << PURPLE << coef[i] << RESTORE << endl;
 		}	
 	 }
@@ -441,21 +449,43 @@ void Polinomio::SumaV1(const Polinomio &p){
 void Polinomio::SumaV2(const Polinomio &p1, const Polinomio &p2){
 	cout << RED << "DEBUG: Entrando en el modulo de sumaV2... " << RESTORE << endl;
 	if (p1.getMaxGrado() <= p2.getMaxGrado()){
-		resize(p2.getMaxGrado());
+		
 		for(int i = 0; i <= p2.getMaxGrado(); i++){
 			//cout << BLUE << coef[i] << RESTORE << endl;
-			setCoeficienteV3(i,(p1.coef[i] + p2.coef[i]));
+			setCoeficienteV3(i,(p1.getCoeficiente(i) + p2.getCoeficiente(i)));
 			//cout << PURPLE << coef[i] << RESTORE << endl;
 		}
 	}
 	else{
-		resize(p1.getMaxGrado());
+		
 		for(int i = 0; i <= p1.getMaxGrado(); i++){
 			//cout << BLUE << coef[i] << RESTORE << endl;
-			setCoeficienteV3(i,(p1.coef[i] + p2.coef[i]));
+			setCoeficienteV3(i,(p1.getCoeficiente(i) + p2.getCoeficiente(i)));
 			//cout << PURPLE << coef[i] << RESTORE << endl;
 		}	
 	 }
+}
+Polinomio Polinomio::SumaV3(const Polinomio &p3){
+	Polinomio aux;
+	
+	cout << RED << "DEBUG: Entrando en el modulo de sumaV2... " << RESTORE << endl;
+	if (getMaxGrado() <= p3.getMaxGrado()){
+		
+		for(int i = 0; i <= p3.getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			aux.setCoeficienteV3(i,(getCoeficiente(i) + p3.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}
+	}
+	else{
+		
+		for(int i = 0; i <= getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			aux.setCoeficienteV3(i,(getCoeficiente(i) + p3.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}	
+	 }
+	return aux;
 }
 int main (){
 
@@ -535,7 +565,7 @@ int main (){
 	Polinom->print();*/
 
 		//Version 2.0 del metodo de suma de polinomios.(Se almacena el resultado de la suma de dos polinomios externos en el OBJETO Polinomio que llama al metodo)
-	Polinomio p1;
+	/*Polinomio p1;
 	Polinomio p2;
 		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA
 	p1.setCoeficienteV3(1,1);
@@ -547,5 +577,23 @@ int main (){
 	p2.print();
 		//LLAMO AL METODO DE SUMA DE POLINOMIO V2
 	Polinom->SumaV2(p1, p2);
-	Polinom->print();
+	Polinom->print();*/
+
+		//Version 3.0 del metodo de suma de polinomios.(Se devuelve un OBJETO Polinomio que posteriormente se asigna a un Polinomio resultado)
+	Polinomio p1;
+	Polinomio p2;
+
+		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA
+	p1.setCoeficienteV3(1,1);
+	p1.setCoeficienteV3(3,7);
+	p1.print();
+		//RELLENAR EL POLINOMIO P2 Y LO MUESTRO POR PANTALLA
+	p2.setCoeficienteV3(2,3);
+	p2.setCoeficienteV3(6,5);
+	p2.print();
+		//LLAMO AL METODO DE SUMA DE POLINOMIO V3
+	Polinomio resultado = p1.SumaV3(p2);
+	resultado.print();
+
+
 }
