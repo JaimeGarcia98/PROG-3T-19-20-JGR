@@ -128,6 +128,14 @@ class Polinomio {
 		* @post 
 		*/
 		Polinomio SumaV3(const Polinomio &p3);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/	
+		Polinomio* SumaV4(const Polinomio *p4);
 };
 Polinomio::Polinomio (){
 	int dim_nueva = 0;
@@ -468,7 +476,7 @@ void Polinomio::SumaV2(const Polinomio &p1, const Polinomio &p2){
 Polinomio Polinomio::SumaV3(const Polinomio &p3){
 	Polinomio aux;
 	
-	cout << RED << "DEBUG: Entrando en el modulo de sumaV2... " << RESTORE << endl;
+	cout << RED << "DEBUG: Entrando en el modulo de sumaV3... " << RESTORE << endl;
 	if (getMaxGrado() <= p3.getMaxGrado()){
 		
 		for(int i = 0; i <= p3.getMaxGrado(); i++){
@@ -487,10 +495,32 @@ Polinomio Polinomio::SumaV3(const Polinomio &p3){
 	 }
 	return aux;
 }
+Polinomio* Polinomio::SumaV4(const Polinomio *p4){
+	Polinomio *aux = new Polinomio();
+	
+	cout << RED << "DEBUG: Entrando en el modulo de sumaV4... " << RESTORE << endl;
+	if (getMaxGrado() <= p4->getMaxGrado()){
+		
+		for(int i = 0; i <= p4->getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			aux->setCoeficienteV3(i,(getCoeficiente(i) + p4->getCoeficiente(i)));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}
+	}
+	else{
+		
+		for(int i = 0; i <= getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			aux->setCoeficienteV3(i,(getCoeficiente(i) + p4->getCoeficiente(i)));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}	
+	 }
+	return aux;
+}
 int main (){
 
-	Polinomio *Polinom = new Polinomio();
-	Polinomio poli_est;
+	/*Polinomio *Polinom = new Polinomio();
+	Polinomio poli_est;*/
 	
 	/*Polinom.setCoeficienteV1(1,3);
 	Polinom.setCoeficienteV1(2,4);
@@ -580,7 +610,7 @@ int main (){
 	Polinom->print();*/
 
 		//Version 3.0 del metodo de suma de polinomios.(Se devuelve un OBJETO Polinomio que posteriormente se asigna a un Polinomio resultado)
-	Polinomio p1;
+	/*Polinomio p1;
 	Polinomio p2;
 
 		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA
@@ -593,7 +623,24 @@ int main (){
 	p2.print();
 		//LLAMO AL METODO DE SUMA DE POLINOMIO V3
 	Polinomio resultado = p1.SumaV3(p2);
-	resultado.print();
+	resultado.print();*/
 
-
+		//Version 4.0 del metodo de suma de polinomios.(Se devuelve un OBJETO Polinomio que posteriormente se asigna a un Polinomio resultado)
+	Polinomio *polinom = new Polinomio();
+	Polinomio *p4 = new Polinomio();
+		//RELLENAR EL POLINOMIO Polinom Y LO MUESTRO POR PANTALLA
+	polinom->setCoeficienteV3(2,5.5);
+	polinom->setCoeficienteV3(4,1.1);
+	polinom->print();
+		//RELLENAR EL POLINOMIO P4 Y LO MUESTRO POR PANTALLA
+	p4->setCoeficienteV3(2,2.6);
+	p4->setCoeficienteV3(3,3.1);
+	p4->print();
+		//LLAMO AL METODO DE SUMA DE POLINOMIO V4
+	Polinomio *resultado = polinom->SumaV4(p4);
+	resultado->print();
+		//LIBERO LA MEMORIA DINAMICA
+	delete polinom;
+	delete p4;
+	delete resultado;
 }
