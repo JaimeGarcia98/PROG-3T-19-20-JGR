@@ -17,3 +17,7 @@ Construccion de los metodos de suma v1 y v2, mas codigo del setgrado modificado,
 Construccion del metodo sumaV3, codigo modificado pero falta por implementar el modo debug y los punteros this.
 
 Implementado metodo sumaV4, falta testar mas
+
+Implementado la sobrecarga de los operadores + e = 
+
+Implementado la sobrecarga de los operadores << y >> 
