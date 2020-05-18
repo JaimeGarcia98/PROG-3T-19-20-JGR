@@ -105,7 +105,7 @@ class Polinomio {
 		*/
 		~Polinomio();    //Destructor
 		/**
-		* @brief 
+		* @brief
 		* @pre 
 		* @param () 
 		* @return 
@@ -136,6 +136,38 @@ class Polinomio {
 		* @post 
 		*/	
 		Polinomio* SumaV4(const Polinomio *p4);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		Polinomio operator+(const Polinomio &p5);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		Polinomio& operator=(const Polinomio &p6);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		friend ostream& operator << (ostream &flujo, const Polinomio &p);
+		/**
+		* @brief 
+		* @pre 
+		* @param () 
+		* @return 
+		* @post 
+		*/
+		friend istream& operator >> ( std::istream &flujo, Polinomio &p);
 };
 Polinomio::Polinomio (){
 	int dim_nueva = 0;
@@ -517,6 +549,81 @@ Polinomio* Polinomio::SumaV4(const Polinomio *p4){
 	 }
 	return aux;
 }
+Polinomio Polinomio::operator+(const Polinomio &p5){
+	Polinomio aux;
+	
+	cout << RED << "DEBUG: Usando la sobrecarga del operador suma..." << RESTORE << endl;
+	if (getMaxGrado() <= p5.getMaxGrado()){
+		
+		for(int i = 0; i <= p5.getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			aux.setCoeficienteV3(i,(getCoeficiente(i) + p5.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}
+	}
+	else{
+		
+		for(int i = 0; i <= getMaxGrado(); i++){
+			//cout << BLUE << coef[i] << RESTORE << endl;
+			aux.setCoeficienteV3(i,(getCoeficiente(i) + p5.coef[i]));
+			//cout << PURPLE << coef[i] << RESTORE << endl;
+		}	
+	 }
+	return aux;
+}
+Polinomio& Polinomio::operator=(const Polinomio &p6){
+
+	cout << RED << "DEBUG: Usando la sobrecarga del operador de asignacion..." << RESTORE << endl;
+	if(&p6 != this){
+		delete[] this->coef;
+		this->max_grado = p6.max_grado;
+		this->grado = p6.grado;
+		this->coef = new float[this->max_grado + 1];
+		if (coef == 0){
+        		cerr << "No hay espacio suficiente. Se terminará la ejecución del programa." << endl;
+        		exit(-1);//Salida forzada del programa para terminar el proceso.
+    	}
+		for(int i = 0; i <= max_grado; i++){
+			this->coef[i] = p6.coef[i];
+		}
+	}
+	return *this;
+} 
+ostream& operator << (ostream &flujo, const Polinomio &p){
+	flujo << RED << "DEBUG: Usando la sobrecarga del operador << ..." << RESTORE << endl;
+	flujo << p.getCoeficiente(p.getGrado());
+	if(p.getGrado() > 0){
+		flujo << "x^" << p.getGrado();
+	}
+	for(int i = p.getGrado() - 1; i >= 0; i = i - 1){
+		if(p.getCoeficiente(i) != 0.0){
+			flujo << " + " << p.getCoeficiente(i);
+			if(i > 0){
+				flujo << "x^" << i;
+			}
+		 }
+	}
+	flujo << endl;
+	return flujo;
+}
+istream& operator >> ( std::istream &flujo, Polinomio &p){
+	int g;
+	float v;
+	int cont;
+	cout << RED << "DEBUG: Usando la sobrecarga del operador >> ..." << RESTORE << endl;
+	cout << BLUE << "¿Cuantos monomios vas a introducir? " << RESTORE << endl;
+	flujo >> cont;
+	for(int i = 0; i < cont; i++){
+		cout << "Introduce el valor del coeficiente... " << endl;
+		flujo >> v;
+		cout << "Introduce el grado del monomio... " << endl;
+		flujo >> g;
+		if(g >= 0){
+			p.setCoeficienteV3(g,v);
+		}
+	  }
+	return flujo;
+}
 int main (){
 
 	/*Polinomio *Polinom = new Polinomio();
@@ -626,7 +733,7 @@ int main (){
 	resultado.print();*/
 
 		//Version 4.0 del metodo de suma de polinomios.(Se devuelve un OBJETO Polinomio que posteriormente se asigna a un Polinomio resultado)
-	Polinomio *polinom = new Polinomio();
+	/*Polinomio *polinom = new Polinomio();
 	Polinomio *p4 = new Polinomio();
 		//RELLENAR EL POLINOMIO Polinom Y LO MUESTRO POR PANTALLA
 	polinom->setCoeficienteV3(2,5.5);
@@ -642,5 +749,68 @@ int main (){
 		//LIBERO LA MEMORIA DINAMICA
 	delete polinom;
 	delete p4;
-	delete resultado;
+	delete resultado;*/
+
+	// ********************* Parte del modulo de sobrecarga de operadores ************************
+
+		//Sobrecarga del operador +
+	/*Polinomio p1;
+	Polinomio p2;
+
+		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA
+	p1.setCoeficienteV3(1,1);
+	p1.setCoeficienteV3(3,7);
+	p1.print();
+		//RELLENAR EL POLINOMIO P2 Y LO MUESTRO POR PANTALLA
+	p2.setCoeficienteV3(2,3);
+	p2.setCoeficienteV3(6,5);
+	p2.print();
+		//Uso el operador + una vez sobrecargado para sumar 2 polinomios
+	Polinomio resultado = p1 + p2;
+	resultado.print();*/
+
+		//Sobrecarga del operador =
+	/*Polinomio p1;
+	Polinomio p2;
+
+		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA
+	p1.setCoeficienteV3(1,1);
+	p1.setCoeficienteV3(3,7);
+	p1.print();
+		//RELLENAR EL POLINOMIO P2 Y LO MUESTRO POR PANTALLA
+	p2.setCoeficienteV3(2,3);
+	p2.setCoeficienteV3(6,5);
+	p2.print();
+		//Uso el operador = para asignar a 2 nuevos polinomios los antiguos y los vuelvo a mostrar por pantalla
+	Polinomio copia1;
+	Polinomio copia2;
+	copia1 = p1;
+	copia2 = p2;
+	copia1.print();
+	copia2.print();*/
+
+		//Sobrecarga del operador << 
+	/*Polinomio p1;
+	Polinomio p2;
+
+		//RELLENAR EL POLINOMIO P1 Y LO MUESTRO POR PANTALLA MEDIANTE LA SOBRECARGA DEL OPERADOR <<
+	p1.setCoeficienteV3(1,1);
+	p1.setCoeficienteV3(3,7);
+	cout << p1;
+		//RELLENAR EL POLINOMIO P2 Y LO MUESTRO POR PANTALLA MEDIANTE LA SOBRECARGA DEL OPERADOR <<
+	p2.setCoeficienteV3(2,3);
+	p2.setCoeficienteV3(6,5);
+	cout << p2;*/
+
+		//Sobrecarga del operador >>
+	Polinomio p1;
+	Polinomio p2;
+
+		//RELLENAR EL POLINOMIO P1 MEDIANTE LA SOBRECARGA DEL OPERADOR >> Y LO MUESTRO POR PANTALLA MEDIANTE LA SOBRECARGA DEL OPERADOR <<
+	cin >> p1;
+	cout << p1;
+		//RELLENAR EL POLINOMIO P2 MEDIANTE LA SOBRECARGA DEL OPERADOR >> Y LO MUESTRO POR PANTALLA MEDIANTE LA SOBRECARGA DEL OPERADOR <<
+	cin >> p2;
+	cout << p2;
+
 }
