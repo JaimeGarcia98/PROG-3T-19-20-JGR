@@ -21,3 +21,9 @@ Implementado metodo sumaV4, falta testar mas
 Implementado la sobrecarga de los operadores + e = 
 
 Implementado la sobrecarga de los operadores << y >> 
+
+
+
+------------------------------------------------- CristoBook2.0 -------------------------------------------------
+
+25/05/2020 Planteamiento de programacion y division del codigo por objetos en distintos ficheros
