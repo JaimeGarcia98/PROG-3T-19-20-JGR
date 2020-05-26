@@ -27,3 +27,5 @@ Implementado la sobrecarga de los operadores << y >>
 ------------------------------------------------- CristoBook2.0 -------------------------------------------------
 
 25/05/2020 Planteamiento de programacion y division del codigo por objetos en distintos ficheros
+
+26/05/2020 Sets/gets de los objetos TablaUsuarios y Foto implementados + modulos de utilidad de dichos objetos
