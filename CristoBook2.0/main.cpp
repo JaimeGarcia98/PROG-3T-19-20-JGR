@@ -13,7 +13,7 @@ using namespace std;
 
 class Vista {
 	private:
-	TablaUsuarios t;
+	TablaUsuarios* t;
 	public:
 	void menu();
 	void testing();
