@@ -1,5 +1,4 @@
 #include <iostream>
-#include "Foto.h"
 using namespace std;
 /***********************************
 ** Definición del OBJETO Usuario  **

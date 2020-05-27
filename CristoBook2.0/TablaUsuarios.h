@@ -8,7 +8,7 @@ using namespace std;
 class TablaUsuarios {
 	private:
 	Usuario** punteroapuntero;
-	int totalusuarios
+	int totalusuarios;
 	
 	/******** SETS ********/
 
@@ -18,7 +18,7 @@ class TablaUsuarios {
 	* @param int totalTuplas Variable de tipo int que se corresponde al total de tuplas de una variable de tipo TablaUsuarios, se pasa por copia porque solo la vamos a utilizar de lectura
 	* @post El valor del miembro segundo de la variable tipo TablaUsuarios, será modificado.
 	*/
-	void setTotaltuplas(int totalTuplas);
+	void setTotalUsuarios(int totalusuarios);
 
 	public:
 	/**
@@ -44,7 +44,7 @@ class TablaUsuarios {
  	* @brief Modulo que devuelve el valor del miembro totaltuplas de la variable de tipo TablaUsuarios
  	* @return Devuelve el valor de la variable tabla->totaltuplas que es un valor de tipo int
 	*/
-	int getTotaltuplas();
+	int getTotalUsuarios();
 	/**
 	* @brief Modulo que "Inserta" un usuario en la tabla de usuarios. El funcionamiento es que el vector que se encuente en "pos" apunte al usuario requerido.
 	* @pre El usuario debe de contener todos los datos rellenos previamente para ser introducido en la tabla
