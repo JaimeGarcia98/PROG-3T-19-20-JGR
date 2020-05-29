@@ -82,10 +82,12 @@ class Usuario {
 	*/
 	string getPerfil_usuario();
 	/**
-	* @brief Modulo en el cual vamos a borrar el contenido de una direccion de memoria dinamica la cual apunta a una variable de tipo Usuario
-	* @post Cuando este modulo finalice tanto el puntero como su contenido debe de estar a NULL
+	* @brief Modulo el cual pide al usuario los datos necesarios para rellenar un usuario en el programa de CRISTOBOOK	
+	* @pre Para crear el usuario, el login debe de ser unico, por lo tanto en caso de repetirse se pedira al usuario que introduzca de nuevo el login
+	* @return Devuelve una variable u que contiene el usuario relleno  por el usuario
+	* @post Debe de quedar un usuario del programa CRISTOBOOK relleno completamente por el usuario
 	*/
-	void borrarUsuario(Usuario *u);
+	virtual void RellenarUsuario();
 	/**
 	* @brief
 	* @pre 
@@ -93,12 +95,12 @@ class Usuario {
 	* @return 
 	* @post 
 	*/
-	virtual void PrintUsuario(Usuario *u);
+	virtual void PrintUsuario();
 
 };
 
 class Admin : public Usuario {
-	private:
+	protected:
 	int total_consultas;
 	public:
 	/**
@@ -124,7 +126,15 @@ class Admin : public Usuario {
 	* @return 
 	* @post 
 	*/
-	void getTotalconsultas();
+	int getTotalconsultas();
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void setTotalConsultas(int total);
 	/**
 	* @brief
 	* @pre 
@@ -133,6 +143,10 @@ class Admin : public Usuario {
 	* @post 
 	*/
 	void BuscarFotografias(string cadena);
+
+	void RellenarUsuario();
+
+	void PrintUsuario();
 
 	
 };
@@ -175,6 +189,30 @@ class Normal : public Usuario {
  	* @post El valor del miembro septimo de la variable tipo Usuario, será modificado.
  	*/
 	void setTotalFotosUsuario(int totalfotos);
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	int getTotalFotosUsuario();
 
+	void setDimFotos(int dim);
 
+	int getDimFotos();
+
+	void InsertarFotoEnUsuario(Foto f);
+	/**
+	* @brief Modulo de redimension para el vector de fotos, este modulo aumentará en 1 la dimensión del vector de fotos(!Apunte: Realizo las modificaciones en un vector auxiliar para 		mayor seguridad)
+	* @pre El vector de fotos debe de estar creado previamente
+	* @return Devuelve un vector de fotos, el cual tendrá una dimensión 1 unidad más grande
+	* @post El vector de fotos que es devuelto, debe de tener como máximo una variación de 1 unidad de tamaño respecto a la de la entrada original, siendo más grande
+	*/
+	void ResizeAumentarVectorFotos(int dim_nueva);
+
+	void RellenarUsuario();
+
+	void PrintUsuario();
+	
 };

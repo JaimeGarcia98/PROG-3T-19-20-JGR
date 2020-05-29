@@ -13,6 +13,7 @@
 using namespace std;
 
 Usuario::Usuario(){
+	cout << RED << "DEBUG: CREANDO USUARIO... " << RESTORE << endl;
 	this->login = " ";
 	this->nombre = " ";
 	this->apellido = " ";
@@ -52,37 +53,164 @@ string Usuario::getNombre(){
 }
 string Usuario::getApellido(){
 
-    return u->apellido;
+    return this->apellido;
 }
 string Usuario::getPerfil_usuario(){
 
     return this->perfil_usuario;
 }
 
-void Usuario::borrarUsuario(Usuario *u){
+void Usuario::RellenarUsuario(){
+	//int posicion = 0;
+	string login;
+	string nombre;
+	string apellido;
+	string perfil;	
 
-    //Pongo a NULL todos los miembros de una variable de tipo Usuario
-    u->login = "";
-    u->nombre = "";
-    u->apellido = "";
-    u->perfil_usuario = "";
-	for (int i = 0; i < getTotalFotosUsuario(u); i++){
-    	borrarFoto(getV_fotos(u, i));
-	}
-    u->dim_vfotos = -1;
-    u->totalFotosUsuario = -1;
-    //Borro el fragmento de memoria
-    delete u;
-    //elimino la dirección que referenciaba al fragmento de memoria
-    u = 0;
+	cout << GREY << "A continuación se va a proceder a crear un usuario, por favor rellene los siguientes campos acorde con lo mostrado... " << RESTORE << endl;
+	cout << GREEN << "INTRODUCE EL LOGIN DEL USUARIO A CREAR, DEBE DE EMPEZAR POR '@': " << RESTORE << endl;
+	/*Filtro();
+	getline(cin,login);
+	posicion = BusquedaLogin(tabla, login);
+	while(posicion != -1){
+		cout << RED << "EL LOGIN INTRODUCIDO ESTA ACTUALMENTE EN USO POR ALGUN USUARIO, INTRODUCE UN NUEVO LOGIN" << RESTORE << endl;
+		getline(cin,login);	
+		posicion = BusquedaLogin(tabla, login);
+	}*/
+	cin >> login;
+	this->setLogin(login);
+	//cout << getLogin(u) << endl;
+	cout << GREEN << "INTRODUCE EL NOMBRE DEL USUARIO A CREAR: " << RESTORE << endl;
+	cin >> nombre;
+	this->setNombre(nombre);
+	//cout << getNombre(u) << endl;
+	cout << GREEN << "INTRODUCE EL PRIMER APELLIDO DEL USUARIO A CREAR: " << RESTORE << endl;
+	cin >> apellido;
+	this->setApellido(apellido);
+	//cout << getApellido(u) << endl;
+	cout << GREEN << "INTRODUCE EL NOMBRE PARA QUE APAREZCA EN EL PERFIL DEL USUARIO A CREAR: " << RESTORE << endl;
+	cin >> perfil;
+	this->setPerfil_usuario(perfil);
+	//cout << getPerfil_usuario(u) << endl;
+	
 }
 
-void Usuario::PrintUsuario(Usuario *u){
+void Usuario::PrintUsuario(){
 	cout << GREEN << "Login del usuario: " << getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << getNombre() << RESTORE << endl;
 }
 
 /*--------------------------- ADMIN ---------------------------*/
 
 Admin::Admin(){
+	cout << RED << "DEBUG: CREANDO USUARIO ADMINISTRADOR... " << RESTORE << endl;
+	this->login = " ";
+	this->nombre = " ";
+	this->apellido = " ";
+	this->perfil_usuario = " ";
+	this->total_consultas = 0;
+}
+Admin::~Admin(){
+	cout << RED << "DEBUG: BORRANDO USUARIO ADMINISTRADOR... " << RESTORE << endl;
+}
+int Admin::getTotalconsultas(){
+	return this->total_consultas;
+}
+void Admin::setTotalConsultas(int total){
+	this->total_consultas = total;
+}
+void Admin::RellenarUsuario(){
+	string numero;
+	this->Usuario::RellenarUsuario();
+	cout << GREEN << "INTRODUCE EL NUMERO DE CONSULTAS: " << RESTORE << endl;
+	cin >> numero;
+}
+void Admin::PrintUsuario(){
+	cout << GREEN << "Login del usuario ADMIN: " << getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << getNombre() << RESTORE << endl;
+	cout << RED << "Consultas: " << getTotalconsultas() << RESTORE << endl;
+}
+
+/*--------------------------- NORMAL ---------------------------*/
+
+Normal::Normal(){
+	cout << RED << "DEBUG: CREANDO USUARIO NORMAL... " << RESTORE << endl;
+	int totalfotos = 0;
+	int saldo = 0;
+	int dim_fotos = 3;
+	
+	this->v_fotos = new Foto [dim_fotos];
+    if (this->v_fotos == 0){
+        cerr << "Error. No hay memoria suficiente. Se abortará la ejecución" << endl;
+        exit(-1);
+    }
+	setDimFotos(dim_fotos);
+}
+
+Normal::~Normal(){
+
+    this->dim_fotos = 0;
+    this->totalFotosUsuario = 0;
+	delete [] this->v_fotos;
+	v_fotos = 0;
 
 }
+void Normal::setTotalFotosUsuario(int totalfotos){
+	this->totalFotosUsuario = totalfotos;
+}
+int Normal::getTotalFotosUsuario(){
+	return this->totalFotosUsuario;
+}
+void Normal::setDimFotos(int dim){
+	this->dim_fotos = dim;
+}
+int Normal::getDimFotos(){
+	return this->dim_fotos;
+}
+void Normal::InsertarFotoEnUsuario(Foto f){
+	this->v_fotos[this->getTotalFotosUsuario()] = f;
+	
+}
+void Normal::ResizeAumentarVectorFotos(int dim_nueva){
+
+	Foto* vectorfotos_ampliado;
+	//1) Creo el vector de punteros nuevo con una dimensión 1 unidad mayor.
+	vectorfotos_ampliado = new Foto [dim_nueva];
+    	if (vectorfotos_ampliado == 0){
+        	cerr << "Error. No hay memoria suficiente. Se abortará la ejecución" << endl;
+        	exit(-1);
+    	}
+		//1)Copio el vector antiguo en el vector nuevo
+		for (int i = 0; i < this->getTotalFotosUsuario(); i++){
+			vectorfotos_ampliado[i] = this->v_fotos[i];
+		}
+		//2)Borro el vector antiguo
+		delete [] this->v_fotos;
+		this->v_fotos = 0;
+		//3)Asigno al miembro v_fotos del usuario el nuevo vector de fotos con 1 unidad más de tamaño
+		this->v_fotos = vectorfotos_ampliado;
+		//4)Cambio los miembros dim_vfotos(dimension del vector) y totalfotosusuario(utiles del vector)
+		setDimFotos(dim_nueva);
+		setTotalFotosUsuario(dim_nueva - 1);
+}
+
+void Normal::RellenarUsuario(){
+	int saldo;
+	this->Usuario::RellenarUsuario();
+	cout << GREEN << "INTRODUCE EL SALDO: " << RESTORE << endl;
+	cin >> saldo;
+}
+void Normal::PrintUsuario(){
+	this->Usuario::PrintUsuario();
+	if ((getTotalFotosUsuario()) == 0){
+			cout << RED << "EL USUARIO NO TIENE FOTOS, POR FAVOR ASEGURESE DE QUE EL USUARIO ELEGIDO TENGA AL MENOS UNA FOTO PARA PODER SER MOSTRADA... " << RESTORE << endl;
+	}			
+	else{
+		cout << GREEN << "IMPRIMENDO FOTOS DEL USUARIO " << RESTORE << endl;
+		cout << this->getDimFotos() << endl;
+		for(int i = 0; i < getTotalFotosUsuario(); i++){
+			cout << RED << "Nº " << i << RESTORE << endl; 
+			this->v_fotos[i].PrintFoto();
+		}
+	}
+}
+
+

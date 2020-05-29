@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 /***********************************
 ** Definición del OBJETO Usuario  **
@@ -8,6 +9,24 @@ class Foto {
 	string ruta;
 	string tipo;
 	unsigned long int tamanio;
+	public:
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	Foto(); //Constructor por defecto
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	~Foto(); //Destructor
+
 
 	/******** SETS ********/
 
@@ -29,23 +48,6 @@ class Foto {
  	* @post El valor del miembro tercero de la variable tipo Foto, será modificado.
  	*/
 	void setTamanio(int tamanio);
-	public:
-	/**
-	* @brief
-	* @pre 
-	* @param () 
-	* @return 
-	* @post 
-	*/
-	Foto(); //Constructor por defecto
-	/**
-	* @brief
-	* @pre 
-	* @param () 
-	* @return 
-	* @post 
-	*/
-	~Foto(); //Destructor
 
 	/******** GETS ********/
 
@@ -63,7 +65,7 @@ class Foto {
  	* @brief Modulo que devuelve el valor del miembro tamanio de la variable de tipo Foto
  	* @return Devuelve el valor de la variable f->tamanio que es un valor de tipo int
 	*/
-	int getTamanio();
+	unsigned long int getTamanio();
 
 	/******** MODULOS DE UTILIDAD ********/
 
@@ -71,5 +73,11 @@ class Foto {
 	* @brief Modulo el cual imprime por pantalla una foto
 	* @post Este modulo debe de mostrar por pantalla la ruta el tipo y el peso en bytes de la foto
 	*/
-	void PrintFoto(Foto f);
+	void PrintFoto();
+	/**
+	* @brief Modulo en el cual vamos a borrar el contenido de  una variable de tipo Foto
+	* @post Cuando este modulo finalice el contenido de una variable de tipo Foto debe de estar a reseteado.
+	*/
+	void borrarFoto();
+
 };

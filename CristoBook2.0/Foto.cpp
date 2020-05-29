@@ -15,15 +15,15 @@ using namespace std;
 /*----- CONSTRUCTOR Y DESTRUCTOR -----*/
 
 Foto::Foto(){
-
+	
 	this->ruta;
 	this->tipo;
 	this->tamanio;
 }
 Foto::~Foto(){
     //Pongo a NULL todos los miembros de una variable de tipo Foto
-    this->ruta = "";
-    this->tipo = "";
+    this->ruta = " ";
+    this->tipo = " ";
     this->tamanio = -1;
 }
 /*----- SETS -----*/
@@ -43,15 +43,15 @@ void Foto::setTamanio(int tamanio){
 
 /*----- GETS -----*/
 
-string Foto::getRuta(Foto f){
+string Foto::getRuta(){
 
     return this->ruta;
 }
-string Foto::getTipo(Foto f){
+string Foto::getTipo(){
 
     return this->tipo;
 }
-int Foto::getTamanio(){
+unsigned long int Foto::getTamanio(){
 
 	return this->tamanio;
 }
@@ -60,9 +60,21 @@ int Foto::getTamanio(){
 ** MODULOS DE UTILIDAD **
 *************************/
 
-void Foto::PrintFoto(Foto f){
+void Foto::PrintFoto(){
 		
 	cout << YELLOW << "Ruta de la foto --> " << CYAN << getRuta() << "." << getTipo() << RESTORE << endl;
 	cout << YELLOW << "Tamaño de la foto --> " << CYAN << getTamanio() << " B " << RESTORE << endl;
 
 }
+void Foto::borrarFoto(){
+/**
+* @brief Modulo en el cual vamos a borrar el contenido de  una variable de tipo Foto
+* @post Cuando este modulo finalice el contenido de una variable de tipo Foto debe de estar a reseteado.
+*/
+    //Pongo a NULL todos los miembros de una variable de tipo Foto
+    this->ruta = " ";
+    this->tipo = " ";
+    this->tamanio = -1;
+
+}
+

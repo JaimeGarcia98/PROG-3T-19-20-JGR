@@ -33,7 +33,7 @@ class Vista {
 };
 
 Vista::Vista(){
-
+	cout << RED << "DEBUG: CREANDO TABLA DE USUARIOS... " << RESTORE << endl;
 	t = new TablaUsuarios;
 	if (t == 0){
         cerr << "Error. No hay memoria suficiente. Se abortará la ejecución" << endl;
@@ -68,43 +68,40 @@ void Vista::menu(){
 	cout << BLUE << "14.Salir [e]" << RESTORE << endl;
 
 	cin >> a;
-	while (!cin){//Condicion para filtrar las letras
-		cout << "No metas numeros, intentalo de nuevo" << endl;
-		Filtro();
-		cin >> a;
-	}
 
 	switch (a) {
 
 		case 'c' :
-			
+			this->t->resizeTablaUsuariosCrecer (7);
+			cout << GREEN << this->t->getTotalUsuarios() << RESTORE << endl;
+			this->t->TablaPorDefecto();
 			break;
 		case 'd' :
 			
 			break;
 		case 'p' :
-			
+			t->PrintTabla();
 			break;
 		case 'i' :
-			
+			t->FuncionalidadInsertarUsuario();
 			break;
 		case 'x' :
 			
 			break;
 		case 's' :
-			
+			t->BusquedayMuestraUsuarioPorLogin();
 			break;
 		case 'o' :
 			
 			break;
 		case 'a' :
-			
+			t->AnadirFotoUsuario();
 			break;
 		case 'w' :
 			
 			break;
 		case 'b' :
-			
+			t->ImprimirFotosUsuario();
 			break;
 		case 'f' :
 			
@@ -116,7 +113,7 @@ void Vista::menu(){
 			
 			break;
 		case 'e' :
-
+				interactua = false;// En este momento se sale del menu
 			break;
 
 		default :
