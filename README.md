@@ -30,4 +30,8 @@ Implementado la sobrecarga de los operadores << y >>
 
 26/05/2020 Sets/gets de los objetos TablaUsuarios y Foto implementados + modulos de utilidad de dichos objetos
 
-37/05/2020 Todos los modulos funcionales programados, realizando las funcionalidades del menu de opciones
+27/05/2020 Todos los modulos funcionales programados, realizando las funcionalidades del menu de opciones
+
+28/05/2020 Funcionalidad crear tabla realizada, funcionalidad imprimir tabla realizada
+
+29/05/2020 Funcionalidad Insertar usuario, añadir foto, imprimir foto y buscar usuario relaizada
