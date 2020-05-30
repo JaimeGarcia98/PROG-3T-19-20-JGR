@@ -13,7 +13,9 @@
 using namespace std;
 
 Usuario::Usuario(){
-	cout << RED << "DEBUG: CREANDO USUARIO... " << RESTORE << endl;
+	if(this->getdebug() == true){
+		cout << RED << "CREANDO USUARIO... " RESTORE << endl;
+	}
 	this->login = " ";
 	this->nombre = " ";
 	this->apellido = " ";
@@ -21,10 +23,15 @@ Usuario::Usuario(){
 }
 
 Usuario::~Usuario(){
-	cout << RED << "DEBUG: BORRANDO USUARIO... " << RESTORE << endl;
+	if(this->getdebug() == true){
+		cout << RED << "BORRANDO USUARIO... " RESTORE << endl;
+	}
 }
 /*----- SETS -----*/
 
+void Usuario::setDebug(bool debug){
+	this->debug = debug;
+}
 void Usuario::setLogin(string login){
 
 	this->login = login;
@@ -42,7 +49,9 @@ void Usuario::setPerfil_usuario(string perfil_usuario){
 	this->perfil_usuario = perfil_usuario;
 }
 /*----- GETS -----*/
-
+bool Usuario::getdebug(){
+	return this->debug;
+}
 string Usuario::getLogin(){
 
     return this->login;
@@ -59,7 +68,11 @@ string Usuario::getPerfil_usuario(){
 
     return this->perfil_usuario;
 }
+void Usuario::Filtro(){
 
+	cin.clear();
+	cin.ignore(256, '\n');
+}
 void Usuario::RellenarUsuario(){
 	//int posicion = 0;
 	string login;
@@ -67,42 +80,46 @@ void Usuario::RellenarUsuario(){
 	string apellido;
 	string perfil;	
 
+	if(this->getdebug() == true){
+		cout << RED << "RELLENANDO USUARIO... " RESTORE << endl;
+	}
 	cout << GREY << "A continuación se va a proceder a crear un usuario, por favor rellene los siguientes campos acorde con lo mostrado... " << RESTORE << endl;
 	cout << GREEN << "INTRODUCE EL LOGIN DEL USUARIO A CREAR, DEBE DE EMPEZAR POR '@': " << RESTORE << endl;
-	/*Filtro();
+
+	Filtro();
 	getline(cin,login);
-	posicion = BusquedaLogin(tabla, login);
-	while(posicion != -1){
-		cout << RED << "EL LOGIN INTRODUCIDO ESTA ACTUALMENTE EN USO POR ALGUN USUARIO, INTRODUCE UN NUEVO LOGIN" << RESTORE << endl;
-		getline(cin,login);	
-		posicion = BusquedaLogin(tabla, login);
-	}*/
-	cin >> login;
 	this->setLogin(login);
 	//cout << getLogin(u) << endl;
 	cout << GREEN << "INTRODUCE EL NOMBRE DEL USUARIO A CREAR: " << RESTORE << endl;
-	cin >> nombre;
+	getline(cin,nombre);
 	this->setNombre(nombre);
 	//cout << getNombre(u) << endl;
 	cout << GREEN << "INTRODUCE EL PRIMER APELLIDO DEL USUARIO A CREAR: " << RESTORE << endl;
-	cin >> apellido;
+	getline(cin,apellido);
 	this->setApellido(apellido);
 	//cout << getApellido(u) << endl;
 	cout << GREEN << "INTRODUCE EL NOMBRE PARA QUE APAREZCA EN EL PERFIL DEL USUARIO A CREAR: " << RESTORE << endl;
-	cin >> perfil;
+	getline(cin, perfil);
 	this->setPerfil_usuario(perfil);
 	//cout << getPerfil_usuario(u) << endl;
-	
+	if(this->getdebug() == true){
+		cout << RED << "USUARIO RELLENO CORRECTAMENTE... " RESTORE << endl;
+	}
 }
 
 void Usuario::PrintUsuario(){
+	if(this->getdebug() == true){
+		cout << RED << "MOSTRANDO USUARIO... " RESTORE << endl;
+	}
 	cout << GREEN << "Login del usuario: " << getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << getNombre() << RESTORE << endl;
 }
 
 /*--------------------------- ADMIN ---------------------------*/
 
 Admin::Admin(){
-	cout << RED << "DEBUG: CREANDO USUARIO ADMINISTRADOR... " << RESTORE << endl;
+	if(this->getdebug() == true){
+		cout << RED << "DEBUG: CREANDO USUARIO ADMINISTRADOR... " << RESTORE << endl;
+	}
 	this->login = " ";
 	this->nombre = " ";
 	this->apellido = " ";
@@ -110,21 +127,44 @@ Admin::Admin(){
 	this->total_consultas = 0;
 }
 Admin::~Admin(){
-	cout << RED << "DEBUG: BORRANDO USUARIO ADMINISTRADOR... " << RESTORE << endl;
+	if(this->getdebug() == true){
+		cout << RED << "DEBUG: BORRANDO USUARIO ADMINISTRADOR... " << RESTORE << endl;
+	}
 }
+void Admin::setDebug(bool debug){
+	this->debug = debug;
+}
+
 int Admin::getTotalconsultas(){
 	return this->total_consultas;
+}
+bool Admin::getdebug(){
+	return this->debug;
 }
 void Admin::setTotalConsultas(int total){
 	this->total_consultas = total;
 }
 void Admin::RellenarUsuario(){
-	string numero;
+	int numero;
+	if(this->getdebug() == true){
+		cout << RED << "RELLENANDO USURARIO ADMINISTRADOR... " RESTORE << endl;
+	}
 	this->Usuario::RellenarUsuario();
 	cout << GREEN << "INTRODUCE EL NUMERO DE CONSULTAS: " << RESTORE << endl;
 	cin >> numero;
+	while(!cin){
+		cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
+		Filtro();
+		cin >> numero;
+	}
+	if(this->getdebug() == true){
+		cout << RED << "USUARIO ADMINISTRADOR RELLENO... " RESTORE << endl;
+	}
 }
 void Admin::PrintUsuario(){
+	if(this->getdebug() == true){
+		cout << RED << "MOSTRANDO USUARIO ADMINISTRADOR... " RESTORE << endl;
+	}
 	cout << GREEN << "Login del usuario ADMIN: " << getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << getNombre() << RESTORE << endl;
 	cout << RED << "Consultas: " << getTotalconsultas() << RESTORE << endl;
 }
@@ -132,9 +172,10 @@ void Admin::PrintUsuario(){
 /*--------------------------- NORMAL ---------------------------*/
 
 Normal::Normal(){
-	cout << RED << "DEBUG: CREANDO USUARIO NORMAL... " << RESTORE << endl;
+	if(this->getdebug() == true){
+		cout << RED << "DEBUG: CREANDO USUARIO NORMAL... " << RESTORE << endl;
+	}
 	int totalfotos = 0;
-	int saldo = 0;
 	int dim_fotos = 3;
 	
 	this->v_fotos = new Foto [dim_fotos];
@@ -143,21 +184,35 @@ Normal::Normal(){
         exit(-1);
     }
 	setDimFotos(dim_fotos);
+	setTotalFotosUsuario(totalfotos);
 }
 
 Normal::~Normal(){
-
-    this->dim_fotos = 0;
-    this->totalFotosUsuario = 0;
+	if(this->getdebug() == true){
+		cout << RED << "ELIMINANDO USUARIO NORMAL... " << RESTORE << endl;
+	}
 	delete [] this->v_fotos;
 	v_fotos = 0;
+    this->dim_fotos = 0;
+    this->totalFotosUsuario = 0;
+	
 
 }
+void Normal::setDebug(bool debug){
+	this->debug = debug;
+	for(int i = 0; i < this->getTotalFotosUsuario(); i++){
+		this->v_fotos[i].setDebug(debug);
+	}
+}
+
 void Normal::setTotalFotosUsuario(int totalfotos){
 	this->totalFotosUsuario = totalfotos;
 }
 int Normal::getTotalFotosUsuario(){
 	return this->totalFotosUsuario;
+}
+bool Normal::getdebug(){
+	return this->debug;
 }
 void Normal::setDimFotos(int dim){
 	this->dim_fotos = dim;
@@ -167,10 +222,12 @@ int Normal::getDimFotos(){
 }
 void Normal::InsertarFotoEnUsuario(Foto f){
 	this->v_fotos[this->getTotalFotosUsuario()] = f;
-	
+	this->setTotalFotosUsuario(this->getTotalFotosUsuario() + 1);	
 }
 void Normal::ResizeAumentarVectorFotos(int dim_nueva){
-
+	if(this->getdebug() == true){
+		cout << RED << "AUMENTANDO VECTOR DE FOTOS... " RESTORE << endl;
+	}
 	Foto* vectorfotos_ampliado;
 	//1) Creo el vector de punteros nuevo con una dimensión 1 unidad mayor.
 	vectorfotos_ampliado = new Foto [dim_nueva];
@@ -190,24 +247,49 @@ void Normal::ResizeAumentarVectorFotos(int dim_nueva){
 		//4)Cambio los miembros dim_vfotos(dimension del vector) y totalfotosusuario(utiles del vector)
 		setDimFotos(dim_nueva);
 		setTotalFotosUsuario(dim_nueva - 1);
+	if(this->getdebug() == true){
+		cout << RED << "VECTOR DE FOTOS AUMENTADO... " RESTORE << endl;
+	}
 }
-
+void Normal::EliminarFotoUsuario(int pos){
+	if(this->getdebug() == true){
+		cout << RED << "ELIMINANDO FOTO DE USUARIO " RESTORE << endl;
+	}
+	this->v_fotos[pos] = this->v_fotos[pos - 1];
+	this->setTotalFotosUsuario(this->getTotalFotosUsuario() - 1);
+	if(this->getdebug() == true){
+		cout << RED << "FOTO DE USUARIO ELIMINADA... " RESTORE << endl;
+	}
+}
 void Normal::RellenarUsuario(){
 	int saldo;
+	if(this->getdebug() == true){
+		cout << RED << "RELLENANDO USUARIO NORMAL... " RESTORE << endl;
+	}
 	this->Usuario::RellenarUsuario();
 	cout << GREEN << "INTRODUCE EL SALDO: " << RESTORE << endl;
 	cin >> saldo;
+	while(!cin){
+		cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
+		Filtro();
+		cin >> saldo;
+	}
+	if(this->getdebug() == true){
+		cout << RED << "USUARIO NORMAL RELLENADO CORRECTAMENTE... " RESTORE << endl;
+	}
 }
 void Normal::PrintUsuario(){
+	if(this->getdebug() == true){
+		cout << RED << "MOSTRANDO USUARIO NORMAL... " RESTORE << endl;
+	}
 	this->Usuario::PrintUsuario();
 	if ((getTotalFotosUsuario()) == 0){
 			cout << RED << "EL USUARIO NO TIENE FOTOS, POR FAVOR ASEGURESE DE QUE EL USUARIO ELEGIDO TENGA AL MENOS UNA FOTO PARA PODER SER MOSTRADA... " << RESTORE << endl;
 	}			
 	else{
 		cout << GREEN << "IMPRIMENDO FOTOS DEL USUARIO " << RESTORE << endl;
-		cout << this->getDimFotos() << endl;
 		for(int i = 0; i < getTotalFotosUsuario(); i++){
-			cout << RED << "Nº " << i << RESTORE << endl; 
+			cout << RED << "Nº " << i + 1 << RESTORE << endl; 
 			this->v_fotos[i].PrintFoto();
 		}
 	}

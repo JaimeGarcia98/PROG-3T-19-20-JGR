@@ -15,12 +15,18 @@ using namespace std;
 /*----- CONSTRUCTOR Y DESTRUCTOR -----*/
 
 Foto::Foto(){
-	
+	if(this->getdebug() == true){
+		cout << RED << "CREANDO FOTO... " RESTORE << endl;
+	}
 	this->ruta;
 	this->tipo;
-	this->tamanio;
+	this->tamanio;	
+	this->debug;
 }
 Foto::~Foto(){
+	if(this->getdebug() == true){
+		cout << RED << "ELIMINANDO FOTO... " RESTORE << endl;
+	}
     //Pongo a NULL todos los miembros de una variable de tipo Foto
     this->ruta = " ";
     this->tipo = " ";
@@ -42,7 +48,9 @@ void Foto::setTamanio(int tamanio){
 }
 
 /*----- GETS -----*/
-
+bool Foto::getdebug(){
+	return this->debug;
+}
 string Foto::getRuta(){
 
     return this->ruta;
@@ -56,12 +64,17 @@ unsigned long int Foto::getTamanio(){
 	return this->tamanio;
 }
 
+void Foto::setDebug(bool debug){
+	this->debug = debug;
+}
 /************************
 ** MODULOS DE UTILIDAD **
 *************************/
 
 void Foto::PrintFoto(){
-		
+	if(this->getdebug() == true){
+		cout << RED << "MOSTRANDO FOTO... " RESTORE << endl;
+	}
 	cout << YELLOW << "Ruta de la foto --> " << CYAN << getRuta() << "." << getTipo() << RESTORE << endl;
 	cout << YELLOW << "Tamaño de la foto --> " << CYAN << getTamanio() << " B " << RESTORE << endl;
 
@@ -71,6 +84,9 @@ void Foto::borrarFoto(){
 * @brief Modulo en el cual vamos a borrar el contenido de  una variable de tipo Foto
 * @post Cuando este modulo finalice el contenido de una variable de tipo Foto debe de estar a reseteado.
 */
+	if(this->getdebug() == true){
+		cout << RED << "BORRANDO FOTO DESDE BORRARFOTO... " RESTORE << endl;
+	}
     //Pongo a NULL todos los miembros de una variable de tipo Foto
     this->ruta = " ";
     this->tipo = " ";

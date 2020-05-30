@@ -10,6 +10,7 @@ class Usuario {
 	string nombre;
 	string apellido;
 	string perfil_usuario;
+	bool debug;
 
 	public:
 	/**
@@ -31,6 +32,14 @@ class Usuario {
 
 	/******** SETS ********/
 
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	virtual void setDebug(bool debug);
 	/**
  	* @brief Módulo que introduce un valor a un login de una variable de tipo Usuario
  	* @param string login Cadena de caracteres que hace referencia al login de un usuario, se pasa por copia porque solo la vamos a utilizar de lectura
@@ -58,7 +67,14 @@ class Usuario {
 
 
 	/******** GETS ********/
-
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	virtual bool getdebug();
 	/**
  	* @brief Modulo que devuelve el valor del miembro login de la variable de tipo Usuario
  	* @return Devuelve el valor de la variable u->login que es un valor de tipo string
@@ -81,6 +97,14 @@ class Usuario {
  	* @return Devuelve el valor de la variable u->perfil_usuario que es un valor de tipo string
 	*/
 	string getPerfil_usuario();
+	/**
+	* @brief Filtro para limpiar el buffer y que no se cuelgue
+	* @pre Ninguna 
+	* @param Ninguno
+	* @return No devuelve nada es una funcion tipo void (procedimiento)
+	* @post Ninguna
+	*/
+	void Filtro();
 	/**
 	* @brief Modulo el cual pide al usuario los datos necesarios para rellenar un usuario en el programa de CRISTOBOOK	
 	* @pre Para crear el usuario, el login debe de ser unico, por lo tanto en caso de repetirse se pedira al usuario que introduzca de nuevo el login
@@ -143,6 +167,22 @@ class Admin : public Usuario {
 	* @post 
 	*/
 	void BuscarFotografias(string cadena);
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void setDebug(bool debug);
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	bool getdebug();
 
 	void RellenarUsuario();
 
@@ -203,6 +243,8 @@ class Normal : public Usuario {
 	int getDimFotos();
 
 	void InsertarFotoEnUsuario(Foto f);
+
+	void EliminarFotoUsuario(int pos);
 	/**
 	* @brief Modulo de redimension para el vector de fotos, este modulo aumentará en 1 la dimensión del vector de fotos(!Apunte: Realizo las modificaciones en un vector auxiliar para 		mayor seguridad)
 	* @pre El vector de fotos debe de estar creado previamente
@@ -210,6 +252,22 @@ class Normal : public Usuario {
 	* @post El vector de fotos que es devuelto, debe de tener como máximo una variación de 1 unidad de tamaño respecto a la de la entrada original, siendo más grande
 	*/
 	void ResizeAumentarVectorFotos(int dim_nueva);
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void setDebug(bool debug);
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	bool getdebug();
 
 	void RellenarUsuario();
 

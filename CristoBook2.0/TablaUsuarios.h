@@ -9,6 +9,7 @@ class TablaUsuarios {
 	private:
 	Usuario** punteroapuntero;
 	int totalusuarios;
+	bool debug;
 	
 	/******** SETS ********/
 
@@ -19,7 +20,6 @@ class TablaUsuarios {
 	* @post El valor del miembro segundo de la variable tipo TablaUsuarios, será modificado.
 	*/
 	void setTotalUsuarios(int totalusuarios);
-
 	public:
 	/**
 	* @brief
@@ -37,9 +37,31 @@ class TablaUsuarios {
 	* @post 
 	*/
 	~TablaUsuarios(); //Destructor
-	
+	/**
+	* @brief Filtro para limpiar el buffer y que no se cuelgue
+	* @pre Ninguna 
+	* @param Ninguno
+	* @return No devuelve nada es una funcion tipo void (procedimiento)
+	* @post Ninguna
+	*/
+	void Filtro();
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void setDebug(bool debug);
 	/******** GETS ********/
-	
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	bool getdebug();
 	/**
  	* @brief Modulo que devuelve el valor del miembro totaltuplas de la variable de tipo TablaUsuarios
  	* @return Devuelve el valor de la variable tabla->totaltuplas que es un valor de tipo int
@@ -58,7 +80,7 @@ class TablaUsuarios {
 	* @return Devuelve un vector de punteros, el cual tendrá una dimensión 1 unidad más pequeña que la original
 	* @post El vector de punteros que es devuelto, debe de tener como máximo una variación de 1 unidad de tamaño respecto a la de la entrada original, siendo más pequeño 
 	*/
-	void resizeTablaUsuariosDisminuir (int dim_nueva, int posicion);
+	void resizeTablaUsuariosDisminuir (int dim_nueva);
 	/**
 	* @brief Modulo que "Inserta" un usuario en la tabla de usuarios. El funcionamiento es que el vector que se encuente en "pos" apunte al usuario requerido.
 	* @pre El usuario debe de contener todos los datos rellenos previamente para ser introducido en la tabla
@@ -98,11 +120,54 @@ class TablaUsuarios {
 	*/
 	int BusquedaLogin(string login);
 	/**
+	* @brief Modulo que elimina la foto de un usuario, primero se le pide al usuario un login al cual se le asignara posteriormente la foto, despues se le pide al usuario el numero de la 		foto la cual quiere borrar y posteriormente se borra la foto y se redimensiona a la vez.
+	* @pre El usuario cuyo login corresponde con el introducido debe de tener al menos una foto introducida
+	* @post El vector de fotos del usuario elegido mediante el login debe de ser una unidad mas pequeño y el hueco en el vector de la foto la cual se eligio borrar debe de estar rellena 		por la ultima foto.
+	*/
+	void EliminarFoto();
+	/**
 	* @brief Modulo que pide al usuario que introduzca un login para buscar un usuario de la tabla cuyo login coincida con el introducido por el usuario. Despues de introducir el login, 		se llama al modulo BusquedaLogin el cual mediante una busqueda secuencial devuelve la posicion del puntero que apunta a dicho usuario del vector de punteros de tabla. Una vez con la 		posicion encontrada, se muestra por pantalla los datos de dicho usuario. En caso de que no se encuentre se mostrará un mensaje por pantalla el cual se le dice al usuario que no se ha 		encontrado ninguna coincidencia con el login introducido y vuelve al menú principal del programa
 	* @pre Debe de ehaber una tabla creada con al menos un usuario dentro.
 	* @post Se debe de mostrar por pantalla los datos del usuario cuyo login coincide con el que se introdujo, en caso de no encontrarlo, se mostrará un mensaje por pantalla indicando 	que no se encontró ningun usuario cuyo login coincida con el introducido y se volvera al menu principal del programa.
 	*/
 	void BusquedayMuestraUsuarioPorLogin();
+
+	void EliminarUsuario();
+	/**
+	* @brief Modulo que ordena alfabeticamente la tabla a partir del atributo login mediante el metodo de la burbuja
+	* @pre NO SE DEBE SUPERAR LA DIMENSION MAXIMA DEL VECTOR
+	* @return No devuelve nada, es un procedimiento
+	* @post La tabla de usuarios debe quedar ordenada alfabeticamente todos los usuarios que contenga en su interior
+	*/
+	void OrdenarPorLogin();
+	/**
+	* @brief Modulo que ordena alfabeticamente la tabla a partir del atributo login mediante el metodo de la burbuja
+	* @pre NO SE DEBE SUPERAR LA DIMENSION MAXIMA DEL VECTOR
+	* @return No devuelve nada, es un procedimiento
+	* @post La tabla de usuarios debe quedar ordenada alfabeticamente todos los usuarios que contenga en su interior
+	*/
+	void OrdenarPorTotalFotos();
+	/**
+	* @brief Modulo que pide al usuario una de las 2 opciones de ordenar la tabla, primero esta la opcion de ordenar alfabeticamentee por login y despues esta la opcion de ordenar de 			mayor a menor por el numero de fotos
+	* @pre La tabla debe de contener al menos 2 usuarios para poder ver el funcionamiento de este modulo
+	* @post La tabla debe de quedar ordenada segun lo especificado por el usuario
+	*/
+	void OrdenarTabla();
+	/**
+	* @brief Modulo el cual a traves de un submenu da a elegir al usuario 2 tipos de testing
+	* @pre La tabla de usuarios debe de estar creada y lista para poder usarse
+	* @post En caso de elegir el testing numero 1, se acabara mostrando por pantalla 3 usuarios.
+		En caso de elegir el testing numero 2, AL final se debera de ver la tabla como en el principio.
+	*/
+	void Testing();
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void EliminarTabla();
 	/**
 	* @brief Modulo que imprime el vector de punteros de la tabla con todas las componentes de sus respectivos usuarios, imprimiendo por pantalla de manera obligatoria el login mas el 		usuario y dando de manera optativa al usuario imprimir 
 	* @pre El vector de punteros de la tabla debe de estar apuntando a 1 usuario como mínimo.

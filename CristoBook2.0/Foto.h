@@ -9,6 +9,7 @@ class Foto {
 	string ruta;
 	string tipo;
 	unsigned long int tamanio;
+	bool debug;
 	public:
 	/**
 	* @brief
@@ -37,6 +38,14 @@ class Foto {
  	*/
 	void setRuta(string ruta);
 	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void setDebug(bool debug);
+	/**
  	* @brief Módulo que introduce un valor a un tipo de una variable de tipo Foto
  	* @param string tipo Cadena de caracteres que hace referencia al tipo de una imagen, se pasa por copia porque solo la vamos a utilizar de lectura
  	* @post El valor del miembro segundo de la variable tipo Foto, será modificado.
@@ -50,7 +59,14 @@ class Foto {
 	void setTamanio(int tamanio);
 
 	/******** GETS ********/
-
+	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	bool getdebug();
 	/**
  	* @brief Modulo que devuelve el valor del miembro ruta de la variable de tipo Foto
  	* @return Devuelve el valor de la variable f->ruta que es un valor de tipo string
