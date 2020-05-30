@@ -35,3 +35,5 @@ Implementado la sobrecarga de los operadores << y >>
 28/05/2020 Funcionalidad crear tabla realizada, funcionalidad imprimir tabla realizada
 
 29/05/2020 Funcionalidad Insertar usuario, añadir foto, imprimir foto y buscar usuario relaizada
+
+30/05/2020 Creadas todas las funcionalidades restantes, implementado el modo testing y el modo debug
