@@ -81,6 +81,7 @@ void Vista::menu(){
 	cout << BLUE << "10.Añadir Fotografía a Usuario." << RESTORE << endl;
 	cout << BLUE << "11.Eliminar Fotografía de un Usuario." << RESTORE << endl;
 	cout << BLUE << "12.Imprimir las Fotografías de un Usuario." << RESTORE << endl;
+	cout << BLUE << "15.Eliminar todos los usuarios cuyo numero de fotos es inferior a fotos_min." << RESTORE << endl;
 	cout << BLUE << "13.Salir." << RESTORE << endl;
 
 	cin >> a;
@@ -152,6 +153,9 @@ void Vista::menu(){
 			break;
 		case 12 :
 			this->t->ImprimirFotosUsuario();
+			break;
+		case 15 :
+			this->t->EliminarUsuariosPorMinFotos();
 			break;
 		case 13 :
 				if (this->t->getTotalUsuarios() > 0){

@@ -169,6 +169,14 @@ class TablaUsuarios {
 	*/
 	void EliminarTabla();
 	/**
+	* @brief
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void EliminarUsuariosPorMinFotos();
+	/**
 	* @brief Modulo que imprime el vector de punteros de la tabla con todas las componentes de sus respectivos usuarios, imprimiendo por pantalla de manera obligatoria el login mas el 		usuario y dando de manera optativa al usuario imprimir 
 	* @pre El vector de punteros de la tabla debe de estar apuntando a 1 usuario como mínimo.
 	* @post Se debe de imprimir por pantalla primeramente tanto el login como el nombre del usuario y luego se debe de mostrar un "submenú" con el cual se le da al usuario la opción de 			imprimir más datos de los usuarios

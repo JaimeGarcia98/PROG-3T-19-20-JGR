@@ -642,6 +642,55 @@ void TablaUsuarios::Testing(){
 			this->PrintTabla();
 		}
 }
+	
+void TablaUsuarios::EliminarUsuariosPorMinFotos(){
+	int fotos_min;
+	Normal* us1;
+	Normal* us2;	
+	Normal* us3;
+	Normal* us4;
+
+	cout << BLUE << "Introduce el numero minimo de fotos" << RESTORE << endl;
+	cin >> fotos_min; 
+	while(!cin){
+		cout << RED << "No introduzcas letras, vuelve a intentarlo" << RESTORE << endl;
+		Filtro();
+		cin >> fotos_min;
+	}
+	
+	for(int i = 0; i < this->getTotalUsuarios(); i++){
+		if (this->getdebug() == true){
+			cout << YELLOW << "Entra en el bucle" << RESTORE << endl;
+		}
+		if(us1 = dynamic_cast < Normal* > (this->punteroapuntero[i])){
+		if (this->getdebug() == true){
+			cout << YELLOW << "Encuentra un usuario normal" << RESTORE << endl;
+		}
+			us2 = us1;
+			if(us2->getTotalFotosUsuario() <= fotos_min){
+				if (this->getdebug() == true){
+					cout << YELLOW << "No pasa el corte de fotos" << RESTORE << endl;
+				}
+				us2->~Usuario();
+				us2 = 0;
+				if (this->getdebug() == true){
+					cout << YELLOW << "Se elimina usuario" << RESTORE << endl;
+				}
+
+				if(us3 = dynamic_cast < Normal* > (this->punteroapuntero[this->getTotalUsuarios() - 1])){
+				if (this->getdebug() == true){
+					cout << YELLOW << "Se hace el cambio" << RESTORE << endl;
+				}
+					us4 = us3;
+					us2 = us4;
+					this->resizeTablaUsuariosDisminuir(this->getTotalUsuarios() -1 ); 
+				}
+		
+			}
+		}
+		
+	}
+}
 void TablaUsuarios::PrintTabla(){
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG: MOSTRANDO TABLA " << RESTORE << endl;
