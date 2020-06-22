@@ -258,18 +258,12 @@ void TablaUsuarios::TablaPorDefecto(){
 		cout << YELLOW << "TABLA POR DEFECTO CREADA" << RESTORE << endl;
 	}
 }
-void TablaUsuarios::AnadirFotoUsuario(){
-Foto f;
-string login;
-string ruta;
-string extension;
-int tamanio = 0;
+void TablaUsuarios::AnadirFotoUsuario(string login, Foto f){
 int posicion = 0;
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG: ENTRANDO EN AÑADIR FOTO A USUARIO " << RESTORE << endl;
 	}
-	cout << PURPLE "Introduce el login del usuario en el cual quieres introducir una foto..." << RESTORE << endl;
-	cin >> login;
+	
 	posicion = BusquedaLogin(login);
 	if (posicion == -1){
 		cout << RED << "EL LOGIN INTRODUCIDO NO CORRESPONDE CON NINGUN USUARIO, NO SE PUEDE INTRODUCIR FOTO, VOLVIENDO AL MENÚ PRINCIPAL..." << RESTORE << endl;
@@ -279,22 +273,6 @@ int posicion = 0;
 		Normal* us2;
 		if(us1 = dynamic_cast < Normal* > (this->punteroapuntero[posicion])){
 			us2 = us1;
-			cout << PURPLE << "INTRODUCE LA RUTA DE LA FOTO SIN EXTENSION (EJ: ..Desktop/Images/Image1 ) " << RESTORE << endl;
-			cin >> ruta;
-			f.setRuta(ruta); 
-			cout << PURPLE << "INTRODUCE LA EXTENSION DE LA FOTO (EJ: jpg, png... ) " << RESTORE << endl;
-			cin >> extension;
-			f.setTipo(extension);
-			cout << PURPLE << "INTRODUCE EL TAMAÑO DE LA FOT EN BYTES (EJ: 32, 22331... ) " << RESTORE << endl;
-			cin >> tamanio;
-			while(!cin){
-				cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
-				Filtro();
-				cin >> tamanio;
-			}
-			f.setTamanio(tamanio);
-			cout << us2->getTotalFotosUsuario() << endl;
-			cout << us2->getDimFotos() << endl;
 			if(us2->getTotalFotosUsuario() >= us2->getDimFotos()){
 				us2->ResizeAumentarVectorFotos(us2->getTotalFotosUsuario() + 1);
 					if(this->getdebug() == true){
@@ -316,14 +294,11 @@ int posicion = 0;
 	}
 }
 
-void TablaUsuarios::ImprimirFotosUsuario(){
-string login;
+void TablaUsuarios::ImprimirFotosUsuario(string login){
 int posicion = 0;
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG: ENTRANDO A IMPRIMIR FOTOS DE UN USUARIO " << RESTORE << endl;
 	}
-	cout << PURPLE "Introduce el login del usuario el cual quieres imprimir sus fotos..." << RESTORE << endl;
-	cin >> login;
 	posicion = BusquedaLogin(login);
 	if (posicion == -1){
 		cout << RED << "EL LOGIN INTRODUCIDO NO CORRESPONDE CON NINGUN USUARIO, NO SE PUEDEN MOSTRAR LAS FOTOS, VOLVIENDO AL MENÚ PRINCIPAL..." << RESTORE << endl;
@@ -359,14 +334,11 @@ int TablaUsuarios::BusquedaLogin(string login){
 	return pos_busq;
 }
 
-void TablaUsuarios::BusquedayMuestraUsuarioPorLogin(){
-string login;
+void TablaUsuarios::BusquedayMuestraUsuarioPorLogin(const string login){
 int posicion = 0;
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG : ENTRANDO EN BUSQUEDA Y MUESTRA DE USUARIO POR LOGIN..." << RESTORE << endl;
 	}
-	cout << PURPLE "Introduce el login del usuario el cual quieres buscar..." << RESTORE << endl;
-	cin >> login;
 	posicion = this->BusquedaLogin(login);
 	if (posicion == -1){
 		cout << RED << "EL LOGIN INTRODUCIDO NO CORRESPONDE CON NINGUN USUARIO, NO SE MOSTRARÁ NINGÚN USUARIO, VOLVIENDO AL MENÚ PRINCIPAL..." << RESTORE << endl;
@@ -378,15 +350,11 @@ int posicion = 0;
 		cout << RED << "DEBUG : BUSQUEDA Y MUESTRA DE USUARIO POR LOGIN COMPLETADA" << RESTORE << endl;
 	}
 }
-void TablaUsuarios::EliminarFoto(){
-string login;
+void TablaUsuarios::EliminarFoto(string login, int elim){
 int posicion = 0;
-int elim = 0;
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG : ENTRANDO EN ELIMINAR UNA FOTO DE UN USUARIO..." << RESTORE << endl;
 	}
-	cout << PURPLE "Introduce el login del usuario en el cual quieres eliminar una foto..." << RESTORE << endl;
-	cin >> login;
 	posicion = BusquedaLogin(login);
 	if (posicion == -1){
 		cout << RED << "EL LOGIN INTRODUCIDO NO CORRESPONDE CON NINGUN USUARIO, NO SE PUEDE INTRODUCIR FOTO, VOLVIENDO AL MENÚ PRINCIPAL..." << RESTORE << endl;
@@ -400,8 +368,6 @@ int elim = 0;
 				cout << RED << "EL USUARIO NO TIENE FOTOS, POR FAVOR ASEGURESE DE QUE EL USUARIO ELEGIDO TENGA AL MENOS UNA FOTO PARA ELIMINAR... " << RESTORE << endl;
 			}			
 			else{
-				cout << "Introduce el numero de la foto la cual quieres eliminar " << endl;
-				cin >> elim;
 				if(elim > us2->getTotalFotosUsuario() || elim == 0){
 					cout << RED << "NUMERO DE FOTO NO VALIDA, VOLVIENDO AL MENU PRINCIPAL..." << RESTORE << endl;
 				}
@@ -413,33 +379,24 @@ int elim = 0;
 			}
 		}
 		else{
-			cout << RED << "USUARIO NO VALIDO PARA MOSTRAR FOTOS, VOLVIENDO AL MENU PRINCIPAL..." << RESTORE << endl;
+			cout << RED << "USUARIO NO VALIDO PARA ELIMINAR FOTOS, VOLVIENDO AL MENU PRINCIPAL..." << RESTORE << endl;
 		}
 	}
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG : FOTO ELIMINADA CORRECTAMENTE" << RESTORE << endl;
 	}
 }
-void TablaUsuarios::FuncionalidadInsertarUsuario(){
+void TablaUsuarios::FuncionalidadInsertarUsuario(int a){
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG : ENTRANDO EN INSERTAR USUARIO..." << RESTORE << endl;
 	}
-	if(this->getdebug() == true){
+	if(this->getTotalUsuarios() == 0){
 		cout << RED << "DEBES DE CREAR ANTES UNA TABLA" << endl;
 	}
 	else{
 		Admin* admin = new Admin();
 		Normal* normal = new Normal();
-		int a;
 		int pos = 0;
-		cout << BLUE << "Elige que tipo de Usuario quieres crear" << RESTORE << endl;
-		cout << BLUE << "Para Usuario Normal pulsa [1], para Usuario Administrados pulsa [2]" << RESTORE << endl;
-		cin >> a;
-		while(!cin){
-			cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
-			Filtro();
-			cin >> a;
-		}
 		
 		switch (a) {
 	
@@ -475,15 +432,13 @@ void TablaUsuarios::FuncionalidadInsertarUsuario(){
 		cout << RED << "DEBUG : USUARIO INSERTADO" << RESTORE << endl;
 	}
 }
-void TablaUsuarios::EliminarUsuario(){
-string login;
+void TablaUsuarios::EliminarUsuario(string login){
 int posicion = 0;
 int elim = 0;
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG : ENTRANDO EN ELIMINAR USUARIO..." << RESTORE << endl;
 	}
-	cout << PURPLE "Introduce el login del usuario el cual quieres eliminar..." << RESTORE << endl;
-	cin >> login;
+
 	posicion = BusquedaLogin(login);
 	if (posicion == -1){
 		cout << RED << "EL LOGIN INTRODUCIDO NO CORRESPONDE CON NINGUN USUARIO, NO SE PUEDE INTRODUCIR FOTO, VOLVIENDO AL MENÚ PRINCIPAL..." << RESTORE << endl;
@@ -568,34 +523,7 @@ void TablaUsuarios::OrdenarPorTotalFotos(){
 		cout << RED << "DEBUG : TABLA ORDENADA" << RESTORE << endl;
 	}
 }
-void TablaUsuarios::OrdenarTabla(){
-	if(this->getdebug() == true){
-		cout << RED << "DEBUG: ENTRANDO EN ORDENAR TABLA " << RESTORE << endl;
-	}
-	int a;
-	cout << BLUE << "Elige como quieres ordenar la tabla, 1.Por login | 2.Total de fotos " << RESTORE << endl;
-	cin >> a;
-	while(!cin){
-		cout << RED << "NO INTRODUZCAS LETRAS, POR FAVOR VUELVE A INTENTARLO..." << RESTORE << endl;
-		Filtro();
-		cin >> a;
-	}
 
-		switch (a) {
-
-		case 1 :
-			this->OrdenarPorLogin ();
-			break;
-		case 2 :
-			this->OrdenarPorTotalFotos();
-			break;
-		default :
-			cout << RED << "Has pulsado una tecla que no es valida, vuelve a intentarlo haciendole caso al enunciado por favor ;)" << RESTORE << endl;
-		}
-	if(this->getdebug() == true){
-		cout << RED << "DEBUG: TABLA ORDENADA " << RESTORE << endl;
-	}
-}
 void TablaUsuarios::EliminarTabla(){
 	if(this->getdebug() == true){
 		cout << RED << "DEBUG: ELIMINANDO TABLA " << RESTORE << endl;
@@ -611,6 +539,7 @@ void TablaUsuarios::EliminarTabla(){
 	}
 }
 void TablaUsuarios::Testing(){
+
 	//Caso de testing
 		//Se repite 5 veces
 		for(int i = 0; i < 5; i++){
@@ -618,45 +547,41 @@ void TablaUsuarios::Testing(){
 			this->TablaPorDefecto();
 			for(int j = 0; j < 3; j++){
 				//Insertamos 3 usuarios en esta tabla
-				this->FuncionalidadInsertarUsuario();
+				this->FuncionalidadInsertarUsuario(1);
 			}
 			//Mostramos por pantalla la tabla
 			this->PrintTabla();
 			for(int k = 0; k < 5; k++){
 				//Eliminamos 5 usuarios de la tabla
-				this->EliminarUsuario();
+				this->punteroapuntero[k]->~Usuario();
+				this->punteroapuntero[k] = 0;
+				this->punteroapuntero[k] = this->punteroapuntero[this->getTotalUsuarios() - 1];
+				this->resizeTablaUsuariosDisminuir(this->getTotalUsuarios() - 1);
 			}
 			//Volvemos a mostrar la tabla por pantalla
 			this->PrintTabla();
 			for(int l = 0; l < 3; l++){
 				//Insertamos 3 usuarios de nuevo en la tabla
-				this->FuncionalidadInsertarUsuario();
+				this->FuncionalidadInsertarUsuario(2);
 			}
 			//Volvemos a mostrar la tabla por pantalla
 			this->PrintTabla();
 			for(int m = 0; m < 5; m++){
 				//Eliminamos 3 usuarios de nuevo en la tabla
-				this->EliminarUsuario();
+				this->punteroapuntero[m]->~Usuario();
+				this->punteroapuntero[m] = 0;
+				this->punteroapuntero[m] = this->punteroapuntero[this->getTotalUsuarios() - 1];
+				this->resizeTablaUsuariosDisminuir(this->getTotalUsuarios() - 1);
 			}
 			//Volvemos a mostrar la tabla por pantalla
 			this->PrintTabla();
 		}
 }
 	
-void TablaUsuarios::EliminarUsuariosPorMinFotos(){
-	int fotos_min;
-	Normal* us1;
-	Normal* us2;	
-	Normal* us3;
-	Normal* us4;
-
-	cout << BLUE << "Introduce el numero minimo de fotos" << RESTORE << endl;
-	cin >> fotos_min; 
-	while(!cin){
-		cout << RED << "No introduzcas letras, vuelve a intentarlo" << RESTORE << endl;
-		Filtro();
-		cin >> fotos_min;
-	}
+void TablaUsuarios::EliminarUsuariosPorMinFotos(int fotos_min){
+	
+Normal* us1;
+Normal* us2;	
 	
 	for(int i = 0; i < this->getTotalUsuarios(); i++){
 		if (this->getdebug() == true){
@@ -671,21 +596,11 @@ void TablaUsuarios::EliminarUsuariosPorMinFotos(){
 				if (this->getdebug() == true){
 					cout << YELLOW << "No pasa el corte de fotos" << RESTORE << endl;
 				}
-				us2->~Usuario();
-				us2 = 0;
+				this->punteroapuntero[i] = this->punteroapuntero[this->getTotalUsuarios() - 1];
+				this->setTotalUsuarios(this->getTotalUsuarios() - 1);
 				if (this->getdebug() == true){
 					cout << YELLOW << "Se elimina usuario" << RESTORE << endl;
 				}
-
-				if(us3 = dynamic_cast < Normal* > (this->punteroapuntero[this->getTotalUsuarios() - 1])){
-				if (this->getdebug() == true){
-					cout << YELLOW << "Se hace el cambio" << RESTORE << endl;
-				}
-					us4 = us3;
-					us2 = us4;
-					this->resizeTablaUsuariosDisminuir(this->getTotalUsuarios() -1 ); 
-				}
-		
 			}
 		}
 		

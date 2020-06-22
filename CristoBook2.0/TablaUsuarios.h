@@ -99,19 +99,19 @@ class TablaUsuarios {
 	* @pre Debe de existir una tabla cread, de lo contrario saltará un mensaje de error
 	* @post El usuario debe de quedar introducido en la tabla de usuarios
 	*/
-	void FuncionalidadInsertarUsuario();
+	void FuncionalidadInsertarUsuario(int a);
 	/**
 	* @brief Modulo que primeramente pide al usuario un login, comprueba si esta en la tabla de usuarios, en caso de que se encuentre se le vuelven a pedir datos para rellenar los 		miembros de una Foto que una vez introducidos se asingnan al vector de fotos del usuario buscado mediante el login. En caso de no encontrar al usuario, se mostrará un mensaje por 		pantalla diciendo que no se ha encontrado ningun usuario que coincida con el login buscado y se volverá al menu principal
 	* @pre Previamente debe de haber una tabla con usuarios en su interior creada, y en el usuario en concreto a buscar debe de haber suficiente hueco en el vector de fotos(se 			redimensionará en caso de que se necesite)
 	* @post La foto introducida por el usuario debe de guardarse dentro del vector de fotos del usuario mostrado, si hay una redimension en el vector de fotos el miembro dim_vfotos debe 		de ser modificado y el miembro totalfotos tambien debe de ser modificado en 1 unidad más una vez acabe este modulo.
 	*/
-	void AnadirFotoUsuario();
+	void AnadirFotoUsuario(string login, Foto f);
 	/**
 	* @brief Modulo que imprime las fotos de un usuario en concreto buscado por el login.
 	* @pre El usuario elegido debe de tener al menos una foto, de lo contrario se mostrará un mensaje de error
 	* @post Se deben de mostrar por pantalla las fotos del usuario elegido en caso de que tenga, en caso contrario se mostrara un mensaje de error
 	*/
-	void ImprimirFotosUsuario();
+	void ImprimirFotosUsuario(string login);
 	/**
 	* @brief Modulo que compara las cadenas de caracteres que contienen los logins de los usuarios de la tabla de usuarios, para determinar la posicion en la cual se encuentra el usuario 		cuyo login coincide con la cadena que buscamos
 	* @pre Todos los usuarios deben de tener un login obligatoriamente distinto y debe de ser obligatorio tener el login registrado
@@ -124,15 +124,15 @@ class TablaUsuarios {
 	* @pre El usuario cuyo login corresponde con el introducido debe de tener al menos una foto introducida
 	* @post El vector de fotos del usuario elegido mediante el login debe de ser una unidad mas pequeño y el hueco en el vector de la foto la cual se eligio borrar debe de estar rellena 		por la ultima foto.
 	*/
-	void EliminarFoto();
+	void EliminarFoto(string login, int min);
 	/**
 	* @brief Modulo que pide al usuario que introduzca un login para buscar un usuario de la tabla cuyo login coincida con el introducido por el usuario. Despues de introducir el login, 		se llama al modulo BusquedaLogin el cual mediante una busqueda secuencial devuelve la posicion del puntero que apunta a dicho usuario del vector de punteros de tabla. Una vez con la 		posicion encontrada, se muestra por pantalla los datos de dicho usuario. En caso de que no se encuentre se mostrará un mensaje por pantalla el cual se le dice al usuario que no se ha 		encontrado ninguna coincidencia con el login introducido y vuelve al menú principal del programa
 	* @pre Debe de ehaber una tabla creada con al menos un usuario dentro.
 	* @post Se debe de mostrar por pantalla los datos del usuario cuyo login coincide con el que se introdujo, en caso de no encontrarlo, se mostrará un mensaje por pantalla indicando 	que no se encontró ningun usuario cuyo login coincida con el introducido y se volvera al menu principal del programa.
 	*/
-	void BusquedayMuestraUsuarioPorLogin();
+	void BusquedayMuestraUsuarioPorLogin(const string login);
 
-	void EliminarUsuario();
+	void EliminarUsuario(string login);
 	/**
 	* @brief Modulo que ordena alfabeticamente la tabla a partir del atributo login mediante el metodo de la burbuja
 	* @pre NO SE DEBE SUPERAR LA DIMENSION MAXIMA DEL VECTOR
@@ -147,12 +147,7 @@ class TablaUsuarios {
 	* @post La tabla de usuarios debe quedar ordenada alfabeticamente todos los usuarios que contenga en su interior
 	*/
 	void OrdenarPorTotalFotos();
-	/**
-	* @brief Modulo que pide al usuario una de las 2 opciones de ordenar la tabla, primero esta la opcion de ordenar alfabeticamentee por login y despues esta la opcion de ordenar de 			mayor a menor por el numero de fotos
-	* @pre La tabla debe de contener al menos 2 usuarios para poder ver el funcionamiento de este modulo
-	* @post La tabla debe de quedar ordenada segun lo especificado por el usuario
-	*/
-	void OrdenarTabla();
+
 	/**
 	* @brief Modulo el cual a traves de un submenu da a elegir al usuario 2 tipos de testing
 	* @pre La tabla de usuarios debe de estar creada y lista para poder usarse
@@ -175,7 +170,7 @@ class TablaUsuarios {
 	* @return 
 	* @post 
 	*/
-	void EliminarUsuariosPorMinFotos();
+	void EliminarUsuariosPorMinFotos(int fotos_min);
 	/**
 	* @brief Modulo que imprime el vector de punteros de la tabla con todas las componentes de sus respectivos usuarios, imprimiendo por pantalla de manera obligatoria el login mas el 		usuario y dando de manera optativa al usuario imprimir 
 	* @pre El vector de punteros de la tabla debe de estar apuntando a 1 usuario como mínimo.

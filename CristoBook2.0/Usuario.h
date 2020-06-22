@@ -188,7 +188,11 @@ class Admin : public Usuario {
 
 	void PrintUsuario();
 
+	Admin& operator=(Admin &a);
+
+	friend ostream& operator << (ostream &flujo, Admin *a);
 	
+	friend istream& operator >> ( std::istream &flujo, Admin *a);
 };
 
 class Normal : public Usuario {
@@ -273,4 +277,9 @@ class Normal : public Usuario {
 
 	void PrintUsuario();
 	
+	Normal& operator=(Normal *n);
+
+	friend ostream& operator << (ostream &flujo, Normal *n);
+	
+	friend istream& operator >> ( std::istream &flujo, Normal *n);
 };

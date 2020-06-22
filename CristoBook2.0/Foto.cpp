@@ -93,4 +93,47 @@ void Foto::borrarFoto(){
     this->tamanio = -1;
 
 }
+void Foto::Filtro(){
 
+	cin.clear();
+	cin.ignore(256, '\n');
+}
+/******************************
+** SOBRECARGAS DE OPERADORES **
+*******************************/
+ostream& operator << (ostream &flujo, Foto &f){
+	flujo << YELLOW << "Ruta de la foto --> " << CYAN << f.getRuta() << "." << f.getTipo() << RESTORE << endl;
+	flujo << YELLOW << "Tamaño de la foto --> " << CYAN << f.getTamanio() << " B " << RESTORE << endl;
+	return flujo;
+}
+
+istream& operator >> ( std::istream &flujo, Foto &f){
+string ruta;
+string extension;
+int tamanio = 0;
+	cout << PURPLE << "INTRODUCE LA RUTA DE LA FOTO SIN EXTENSION (EJ: ..Desktop/Images/Image1 ) " << RESTORE << endl;
+	flujo >> ruta;
+	f.setRuta(ruta); 
+	cout << PURPLE << "INTRODUCE LA EXTENSION DE LA FOTO (EJ: jpg, png... ) " << RESTORE << endl;
+	flujo >> extension;
+	f.setTipo(extension);
+	cout << PURPLE << "INTRODUCE EL TAMAÑO DE LA FOT EN BYTES (EJ: 32, 22331... ) " << RESTORE << endl;
+	flujo >> tamanio;
+	while(!cin){
+		cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
+		f.Filtro();
+		flujo >> tamanio;
+	}
+	f.setTamanio(tamanio);
+	return flujo;
+}
+
+Foto& Foto::operator=(Foto &f){
+
+	if(&f != this){
+		this->ruta = f.ruta;
+		this->tipo = f.tipo;
+		this->tamanio = f.tamanio;
+	}
+	return *this;
+}

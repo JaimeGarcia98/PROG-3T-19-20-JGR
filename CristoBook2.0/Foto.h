@@ -95,5 +95,19 @@ class Foto {
 	* @post Cuando este modulo finalice el contenido de una variable de tipo Foto debe de estar a reseteado.
 	*/
 	void borrarFoto();
+	/**
+	* @brief Filtro para limpiar el buffer y que no se cuelgue
+	* @pre Ninguna 
+	* @param Ninguno
+	* @return No devuelve nada es una funcion tipo void (procedimiento)
+	* @post Ninguna
+	*/
+	void Filtro();
+
+	friend ostream& operator << (ostream &flujo, Foto &f);
+
+	friend istream& operator >> ( std::istream &flujo, Foto &f);
+
+	Foto& operator=(Foto &f);
 
 };

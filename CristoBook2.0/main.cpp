@@ -11,17 +11,6 @@
 #define PURPLE "\033[1;35m"
 #define CYAN "\033[1;36m"
 using namespace std;
-void Filtro(){
-/**
-* @brief Filtro para limpiar el buffer y que no se cuelgue
-* @pre Ninguna 
-* @param Ninguno
-* @return No devuelve nada es una funcion tipo void (procedimiento)
-* @post Ninguna
-*/
-	cin.clear();
-	cin.ignore(256, '\n');
-}
 class Vista {
 	private:
 	TablaUsuarios* t;
@@ -31,6 +20,77 @@ class Vista {
 	~Vista();
 	void setDebug(bool debug);
 	bool getdebug();
+	/**
+	* @brief Filtro para limpiar el buffer y que no se cuelgue
+	* @pre Ninguna 
+	* @param Ninguno
+	* @return No devuelve nada es una funcion tipo void (procedimiento)
+	* @post Ninguna
+	*/
+	void Filtro();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void MenuDebug();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void FuncionalidadEliminarUsuario();
+	/**
+	* @brief Modulo que pide al usuario una de las 2 opciones de ordenar la tabla, primero esta la opcion de ordenar alfabeticamentee por login y despues esta la opcion de ordenar de 			mayor a menor por el numero de fotos
+	* @pre La tabla debe de contener al menos 2 usuarios para poder ver el funcionamiento de este modulo
+	* @post La tabla debe de quedar ordenada segun lo especificado por el usuario
+	*/
+	void OrdenarTabla();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void FuncionalidadBuscarUsuario();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void FuncionalidadAnadirFoto();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void FuncionalidadEliminarFotoUsuario();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void FuncionalidadInsertarUsuarioC();
+	void MostrarFotosUsuario();
+	/**
+	* @brief 
+	* @pre 
+	* @param () 
+	* @return 
+	* @post 
+	*/
+	void FunionalidadEliminarUsuariosMinFotos();
 	void menu();
 	void testing();
 };
@@ -58,16 +118,158 @@ void Vista::setDebug(bool debug){
 	this->debug = debug;
 	this->t->setDebug(debug);
 }
+
 bool Vista::getdebug(){
 	return this->debug;
-	
 }
+
+void Vista::Filtro(){
+	cin.clear();
+	cin.ignore(256, '\n');
+}
+
+void Vista::MenuDebug(){
+int num;
+bool opc;
+	cout << BLUE << "Para activar debug pulsa [1], para desactivarlo pulsa [2] " << RESTORE << endl;
+	cin >> num;
+	while(!cin){
+		cout << RED << "NO INTRODUZCAS LETRAS, POR FAVOR VUELVE A INTENTARLO..." << RESTORE << endl;
+		Filtro();
+		cin >> num;
+	}
+	switch (num) {
+	
+		case 1 :
+			opc = true;
+			this->setDebug(opc);
+		break;
+				
+		case 2 :
+			opc = false;
+			this->setDebug(opc);
+		break;
+		default :
+			cout << RED << "Has pulsado una tecla que no es valida, volviendo al menu principal..." << RESTORE << endl;
+		}
+}
+
+void Vista::FuncionalidadInsertarUsuarioC(){
+int a;
+	cout << BLUE << "Elige que tipo de Usuario quieres crear" << RESTORE << endl;
+	cout << BLUE << "Para Usuario Normal pulsa [1], para Usuario Administrados pulsa [2]" << RESTORE << endl;
+	cin >> a;
+	while(!cin){
+		cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
+		Filtro();
+		cin >> a;
+	}
+	this->t->FuncionalidadInsertarUsuario(a);
+}
+
+void Vista::FuncionalidadEliminarUsuario(){
+string login;
+	cout << PURPLE "Introduce el login del usuario el cual quieres eliminar..." << RESTORE << endl;
+	cin >> login;
+	this->t->EliminarUsuario(login);
+}
+
+void Vista::FuncionalidadBuscarUsuario(){
+string login;
+	cout << PURPLE "Introduce el login del usuario el cual quieres buscar..." << RESTORE << endl;
+	cin >> login;
+	this->t->BusquedayMuestraUsuarioPorLogin(login);
+}
+
+void Vista::OrdenarTabla(){
+	if(this->getdebug() == true){
+		cout << RED << "DEBUG: ENTRANDO EN ORDENAR TABLA " << RESTORE << endl;
+	}
+	int a;
+	cout << BLUE << "Elige como quieres ordenar la tabla, 1.Por login | 2.Total de fotos " << RESTORE << endl;
+	cin >> a;
+	while(!cin){
+		cout << RED << "NO INTRODUZCAS LETRAS, POR FAVOR VUELVE A INTENTARLO..." << RESTORE << endl;
+		Filtro();
+		cin >> a;
+	}
+
+		switch (a) {
+
+		case 1 :
+			this->t->OrdenarPorLogin ();
+			break;
+		case 2 :
+			this->t->OrdenarPorTotalFotos();
+			break;
+		default :
+			cout << RED << "Has pulsado una tecla que no es valida, vuelve a intentarlo haciendole caso al enunciado por favor ;)" << RESTORE << endl;
+		}
+	if(this->getdebug() == true){
+		cout << RED << "DEBUG: TABLA ORDENADA " << RESTORE << endl;
+	}
+}
+
+void Vista::FuncionalidadAnadirFoto(){
+Foto f;
+string login;
+string ruta;
+string extension;
+int tamanio = 0;
+	cout << PURPLE "Introduce el login del usuario en el cual quieres introducir una foto..." << RESTORE << endl;
+	cin >> login;
+	cout << GREEN << "A continuacion vamos a rellenar la foto que desea introducir... " << RESTORE << endl;
+	cout << PURPLE << "INTRODUCE LA RUTA DE LA FOTO SIN EXTENSION (EJ: ..Desktop/Images/Image1 ) " << RESTORE << endl;
+	cin >> ruta;
+	f.setRuta(ruta); 
+	cout << PURPLE << "INTRODUCE LA EXTENSION DE LA FOTO (EJ: jpg, png... ) " << RESTORE << endl;
+	cin >> extension;
+	f.setTipo(extension);
+	cout << PURPLE << "INTRODUCE EL TAMAÑO DE LA FOT EN BYTES (EJ: 32, 22331... ) " << RESTORE << endl;
+	cin >> tamanio;
+	while(!cin){
+		cout << RED << "No introduzcas letras, intentalo de nuevo" << RESTORE << endl;	
+		Filtro();
+		cin >> tamanio;
+	}
+	f.setTamanio(tamanio);
+	
+	this->t->AnadirFotoUsuario(login, f);
+}
+
+void Vista::FuncionalidadEliminarFotoUsuario(){
+string login;
+int elim = 0;
+	cout << PURPLE << "Introduce el login del usuario en el cual quieres eliminar una foto..." << RESTORE << endl;
+	cin >> login;
+	cout << PURPLE << "A continuacion introduce el numero de la foto la cual quieres eliminar " << RESTORE << endl;
+	cin >> elim;
+	this->t->EliminarFoto(login, elim);
+}
+
+void Vista::MostrarFotosUsuario(){
+string login;
+	cout << PURPLE "Introduce el login del usuario el cual quieres imprimir sus fotos..." << RESTORE << endl;
+	cin >> login;
+	this->t->ImprimirFotosUsuario(login);
+}
+
+void Vista::FunionalidadEliminarUsuariosMinFotos(){
+int fotos_min;
+	cout << BLUE << "Introduce el numero minimo de fotos" << RESTORE << endl;
+	cin >> fotos_min; 
+	while(!cin){
+		cout << RED << "No introduzcas letras, vuelve a intentarlo" << RESTORE << endl;
+		Filtro();
+		cin >> fotos_min;
+	}
+	this->t->EliminarUsuariosPorMinFotos(fotos_min);
+}
+
 void Vista::menu(){
 	bool interactua = true;
 	while (interactua == true){
 	int a;
-	int num;
-	bool opc;
 	cout << BLUE << "BIENVENIDO A CRISTOBOOK " << RESTORE << endl;
 	cout << BLUE << "1.Activar/Desactivar modo debug." << RESTORE << endl;
 	cout << BLUE << "2.Ejecutar testing automatico." << RESTORE << endl;
@@ -94,27 +296,7 @@ void Vista::menu(){
 	switch (a) {
 
 		case 1 :
-			cout << BLUE << "Para activar debug pulsa [1], para desactivarlo pulsa [2] " << RESTORE << endl;
-			cin >> num;
-			while(!cin){
-				cout << RED << "NO INTRODUZCAS LETRAS, POR FAVOR VUELVE A INTENTARLO..." << RESTORE << endl;
-				Filtro();
-				cin >> a;
-			}
-				switch (num) {
-	
-					case 1 :
-						opc = true;
-						this->setDebug(opc);
-					break;
-				
-					case 2 :
-						opc = false;
-						this->setDebug(opc);
-					break;
-					default :
-						cout << RED << "Has pulsado una tecla que no es valida, volviendo al menu principal..." << RESTORE << endl;
-					}
+			this->MenuDebug();
 			break;
 		case 2 :
 			this->t->Testing();
@@ -131,31 +313,31 @@ void Vista::menu(){
 			this->t->EliminarTabla();
 			break;
 		case 5 :
-			t->PrintTabla();
+			this->t->PrintTabla();
 			break;
 		case 6 :
-			this->t->FuncionalidadInsertarUsuario();
+			this->FuncionalidadInsertarUsuarioC();
 			break;
 		case 7 :
-			this->t->EliminarUsuario();
+			this->FuncionalidadEliminarUsuario();
 			break;
 		case 8 :
-			this->t->BusquedayMuestraUsuarioPorLogin();
+			this->FuncionalidadBuscarUsuario();
 			break;
 		case 9 :
-			this->t->OrdenarTabla();
+			this->OrdenarTabla();
 			break;
 		case 10 :
-			this->t->AnadirFotoUsuario();
+			this->FuncionalidadAnadirFoto();
 			break;
 		case 11:
-			this->t->EliminarFoto();
+			this->FuncionalidadEliminarFotoUsuario();
 			break;
 		case 12 :
-			this->t->ImprimirFotosUsuario();
+			this->MostrarFotosUsuario();
 			break;
 		case 15 :
-			this->t->EliminarUsuariosPorMinFotos();
+			this->FunionalidadEliminarUsuariosMinFotos();
 			break;
 		case 13 :
 				if (this->t->getTotalUsuarios() > 0){
@@ -179,4 +361,26 @@ int main (){
 Vista Mivista;
 
 Mivista.menu();
+
+/************** PRUEBA DE SOBRECARGA DE OPERADORES DE FOTO *************/
+/*
+Foto f;
+Foto f2;
+	cin >> f;
+	cout << f;
+	f2 = f;
+	cout << f2;
+*/
+
+/************** PRUEBA DE SOBRECARGA DE OPERADORES DE USUARIO *************/
+/*
+cout << RED << "USUARIO ADMIN" << RESTORE << endl;
+Admin *a = new Admin();
+cin >> a;
+cout << a;
+cout << RED << "USUARIO NORMAL" << RESTORE << endl;
+Normal *u = new Normal();
+cin >> u;
+cout << u;
+*/
 }

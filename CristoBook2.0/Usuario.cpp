@@ -114,6 +114,7 @@ void Usuario::PrintUsuario(){
 	cout << GREEN << "Login del usuario: " << getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << getNombre() << RESTORE << endl;
 }
 
+
 /*--------------------------- ADMIN ---------------------------*/
 
 Admin::Admin(){
@@ -169,6 +170,46 @@ void Admin::PrintUsuario(){
 	cout << RED << "Consultas: " << getTotalconsultas() << RESTORE << endl;
 }
 
+Admin& operator=(Admin *a){
+
+	if(&a != this){
+		this->login = a->login;
+		this->nombre = a->nombre;
+		this->apellido = a->apellido;
+		this->perfil_usuario = a->perfil_usuario;
+		this->total_consultas = a->total_consultas;
+	}
+	return *this;
+}
+
+ostream& operator << (ostream &flujo, Admin *a){
+	flujo << GREEN << "Login del usuario: " << a->getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << a->getNombre() << RESTORE << endl;
+	cout << RED << "Consultas: " << a->getTotalconsultas() << RESTORE << endl;
+	return flujo;
+}
+
+istream& operator >> ( std::istream &flujo, Admin *a){
+string login;
+string nombre;
+string apellido;
+string perfil;	
+int numero;
+	cout << GREEN << "INTRODUCE EL LOGIN DEL USUARIO A CREAR, DEBE DE EMPEZAR POR '@': " << RESTORE << endl;
+	getline(cin,login);
+	a->setLogin(login);
+	cout << GREEN << "INTRODUCE EL NOMBRE DEL USUARIO A CREAR: " << RESTORE << endl;
+	getline(cin,nombre);
+	a->setNombre(nombre);
+	cout << GREEN << "INTRODUCE EL PRIMER APELLIDO DEL USUARIO A CREAR: " << RESTORE << endl;
+	getline(cin,apellido);
+	a->setApellido(apellido);
+	cout << GREEN << "INTRODUCE EL NOMBRE PARA QUE APAREZCA EN EL PERFIL DEL USUARIO A CREAR: " << RESTORE << endl;
+	getline(cin, perfil);
+	a->setPerfil_usuario(perfil);
+	cout << GREEN << "INTRODUCE EL NUMERO DE CONSULTAS: " << RESTORE << endl;
+	flujo >> numero;
+	return flujo;
+}
 /*--------------------------- NORMAL ---------------------------*/
 
 Normal::Normal(){
@@ -295,4 +336,59 @@ void Normal::PrintUsuario(){
 	}
 }
 
+Normal& operator=(Normal *n){
 
+	if(&n != this){
+		delete [] this->v_fotos;
+		this->login = n->login;
+		this->nombre = n->nombre;
+		this->apellido = n->apellido;
+		this->perfil_usuario = n->perfil_usuario;
+		this->v_fotos = new Foto[this->getTotalFotosUsuario()];
+		if (v_fotos == 0){
+        		cerr << "No hay espacio suficiente. Se terminará la ejecución del programa." << endl;
+        		exit(-1);//Salida forzada del programa para terminar el proceso.
+    	}
+		for(int i = 0; i <= this->getTotalFotosUsuario(); i++){
+			this->v_fotos[i] = n->v_fotos[i];
+		}
+	}
+	return *this;
+}
+ostream& operator << (ostream &flujo, Normal *n){
+	flujo << GREEN << "Login del usuario: " << n->getLogin() << YELLOW << " --> " << PURPLE << "Nombre del usuario: " << n->getNombre() << RESTORE << endl;
+	if ((n->getTotalFotosUsuario()) == 0){
+			flujo << RED << "EL USUARIO NO TIENE FOTOS, POR FAVOR ASEGURESE DE QUE EL USUARIO ELEGIDO TENGA AL MENOS UNA FOTO PARA PODER SER MOSTRADA... " << RESTORE << endl;
+	}			
+	else{
+		flujo << GREEN << "IMPRIMENDO FOTOS DEL USUARIO " << RESTORE << endl;
+		for(int i = 0; i < n->getTotalFotosUsuario(); i++){
+			flujo << RED << "Nº " << i + 1 << RESTORE << endl; 
+			n->v_fotos[i].PrintFoto();
+		}
+	}
+	return flujo;
+}
+
+istream& operator >> ( std::istream &flujo, Normal *n){
+string login;
+string nombre;
+string apellido;
+string perfil;	
+double saldo;
+	cout << GREEN << "INTRODUCE EL LOGIN DEL USUARIO A CREAR, DEBE DE EMPEZAR POR '@': " << RESTORE << endl;
+	getline(cin,login);
+	n->setLogin(login);
+	cout << GREEN << "INTRODUCE EL NOMBRE DEL USUARIO A CREAR: " << RESTORE << endl;
+	getline(cin,nombre);
+	n->setNombre(nombre);
+	cout << GREEN << "INTRODUCE EL PRIMER APELLIDO DEL USUARIO A CREAR: " << RESTORE << endl;
+	getline(cin,apellido);
+	n->setApellido(apellido);
+	cout << GREEN << "INTRODUCE EL NOMBRE PARA QUE APAREZCA EN EL PERFIL DEL USUARIO A CREAR: " << RESTORE << endl;
+	getline(cin, perfil);
+	n->setPerfil_usuario(perfil);
+	cout << GREEN << "INTRODUCE EL SALDO: " << RESTORE << endl;
+	flujo >> saldo;
+	return flujo;
+}
